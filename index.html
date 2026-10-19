@@ -284,7 +284,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .stories { background: linear-gradient(180deg, #000 14.2%, var(--deep) 103.8%); }
 .stories__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; padding-top: max(80px, calc(150 * var(--s))); padding-bottom: max(40px, calc(80 * var(--s))); }
 .arrows { display: flex; gap: 20px; padding-bottom: 15px; }
-.arrow { width: 53px; height: 53px; border-radius: 50%; background: var(--paper); color: var(--ink); display: grid; place-items: center; transition: background-color .3s ease, color .3s ease, transform .3s ease; }
+.arrow { width: 53px; height: 53px; border-radius: 50%; background: var(--paper); color: var(--ink); display: grid; place-items: center; transition: background-color .3s ease, color .3s ease; }
 .arrow:hover { background: var(--orange); color: var(--paper); }
 .arrow:active { transform: scale(.94); }
 .arrow svg { width: 20px; height: 20px; }
@@ -319,8 +319,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .step p { margin: 0; }
 .apply { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 13.5px; padding-top: max(72px, calc(150 * var(--s))); padding-bottom: max(80px, calc(150 * var(--s))) !important; }
 .acard { position: relative; overflow: hidden; height: max(520px, calc(630 * var(--s))); display: flex; align-items: flex-end; }
-.acard img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
-.acard:hover img { transform: scale(1.06); }
+.acard img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; transition: scale 1.2s cubic-bezier(.2,.7,.2,1); }
+.acard:hover img { scale: 1.06; }
 .acard__body { position: relative; display: grid; gap: 40px; justify-items: start; padding: 0 max(24px, calc(50 * var(--s))) max(48px, calc(64 * var(--s))); max-width: 526px; }
 .acard__body h3 { font: 900 max(24px, calc(28 * var(--s)))/1.2 var(--display); margin: 0 0 24px; }
 .acard__body p { margin: 0; }
@@ -920,6 +920,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
   if (!window.gsap || !window.ScrollTrigger) return;
   gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.config({ ignoreMobileResize: true });
   document.fonts && document.fonts.ready.then(() => { placeInd($(".tab[aria-selected=true]"), false); ScrollTrigger.refresh(); });
   window.addEventListener("resize", () => placeInd($(".tab[aria-selected=true]"), false));
   placeInd(tabs[0], false);
@@ -970,40 +971,43 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
     gsap.to(".hero__media img", { yPercent: 14, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true } });
     gsap.to(".hero__title", { yPercent: -30, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "60% top", scrub: true } });
 
-    /* Word reveals */
-    $$("[data-split]").forEach(el => {
-      gsap.from(el.querySelectorAll(".w > span"), { yPercent: 110, duration: 1.1, stagger: .045, ease: "expo.out", scrollTrigger: { trigger: el, start: "top 85%" } });
-    });
-
-    /* Generic fade-ups */
-    gsap.utils.toArray("[data-reveal]").forEach(el => {
-      gsap.from(el, { y: 40, autoAlpha: 0, duration: 1, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 88%" } });
-    });
-
-    /* Counters */
-    $$("[data-count]").forEach(el => {
+    /* One timeline per section: it starts when the section enters the viewport
+       and plays its parts in reading order with a shared rhythm. */
+    const EASE = "power3.out";
+    const block = (trigger, build, start = "top 78%") => {
+      const tl = gsap.timeline({ defaults: { ease: EASE, duration: 1 }, scrollTrigger: { trigger, start, once: true } });
+      build(tl);
+      return tl;
+    };
+    const up = (tl, targets, pos, vars = {}) => tl.from(targets, { y: 40, autoAlpha: 0, stagger: .08, ...vars }, pos);
+    const title = (tl, el, pos) => el && tl.from(el.querySelectorAll(".w > span"), { yPercent: 110, duration: 1.1, stagger: .05, ease: "expo.out" }, pos);
+    const count = el => {
       const end = Number(el.dataset.count), o = { v: 0 };
-      gsap.to(o, { v: end, duration: 2, ease: "power2.out", scrollTrigger: { trigger: el, start: "top 90%" },
-        onStart() { el.textContent = "0"; },
-        onUpdate() { el.textContent = Math.round(o.v).toLocaleString("en-US"); } });
-    });
-    ScrollTrigger.batch(".stat", { start: "top 90%", onEnter: b => gsap.from(b, { y: 40, autoAlpha: 0, stagger: .1, duration: 1, ease: "power3.out" }) });
-    gsap.utils.toArray(".stat").forEach(s => {
-      const line = document.createElement("i");
-      line.style.cssText = "position:absolute;left:0;right:0;bottom:0;height:2px;background:#fd4f00;transform:scaleX(0);transform-origin:left";
-      s.appendChild(line);
-      gsap.timeline({ scrollTrigger: { trigger: s, start: "top 85%" } })
-        .to(line, { scaleX: 1, duration: .9, ease: "expo.inOut" })
-        .to(line, { scaleX: 0, transformOrigin: "right", duration: .9, ease: "expo.inOut" }, "+=.1");
-    });
+      el.textContent = "0";
+      return gsap.to(o, { v: end, duration: 1.8, ease: "power2.out", onUpdate() { el.textContent = Math.round(o.v).toLocaleString("en-US"); } });
+    };
+    /* Grids reveal together on wide screens; once they stack, each item waits for its own turn */
+    const grid = (tl, sel, pos, vars = {}) => {
+      if (desktop) return up(tl, sel, pos, { y: 60, stagger: .1, ...vars });
+      gsap.utils.toArray(sel).forEach(el => block(el, t => up(t, el, 0, { y: 60, ...vars }), "top 88%"));
+    };
 
-    /* Study cards */
-    gsap.from(".tabs .tab", { x: -40, autoAlpha: 0, stagger: .1, duration: .9, ease: "power3.out", scrollTrigger: { trigger: ".tabs", start: "top 90%" } });
-    gsap.from(".study__head > *", { y: 20, autoAlpha: 0, stagger: .1, duration: .8, ease: "power3.out", scrollTrigger: { trigger: ".study__head", start: "top 88%" } });
-    ScrollTrigger.batch("#panel-f .pcard", { start: "top 90%", onEnter: b => {
-      gsap.from(b, { y: 60, autoAlpha: 0, stagger: .12, duration: 1, ease: "power3.out" });
-      gsap.from(b.map(c => c.querySelector(".pcard__img")), { clipPath: "inset(0 0 100% 0)", stagger: .12, duration: 1.2, ease: "expo.inOut" });
-    } });
+    /* Hero lower band: follows the intro if already on screen, otherwise waits for scroll */
+    const heroBottom = gsap.timeline({ defaults: { ease: EASE, duration: 1 }, paused: true });
+    up(heroBottom, ".hero__intro > *", 0, { stagger: .1 });
+    up(heroBottom, ".stat", .2, { stagger: .1 });
+    $$(".stats [data-count]").forEach((el, i) => heroBottom.add(count(el), .3 + i * .1));
+    if (ScrollTrigger.isInViewport(".hero__bottom", .1)) intro.add(heroBottom.paused(false), 1.3);
+    else ScrollTrigger.create({ trigger: ".hero__bottom", start: "top 85%", once: true, onEnter: () => heroBottom.play() });
+
+    /* What to study */
+    block(".study", tl => {
+      title(tl, $("#study-title"), 0);
+      up(tl, ".tabs", .3, { x: -30, y: 0 });
+      up(tl, ".study__head > *", .4);
+      if (desktop) tl.from("#panel-f .pcard__img", { clipPath: "inset(0 0 100% 0)", stagger: .1, duration: 1.2, ease: "expo.inOut" }, .5);
+      grid(tl, "#panel-f .pcard", .55);
+    });
 
     /* Why January: the orange band follows the row in focus */
     rows.forEach((r, i) => {
@@ -1011,38 +1015,38 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
       if (wide) r.addEventListener("mouseenter", () => bandTo(i, .6));
     });
     if (wide) $(".why").addEventListener("mouseleave", () => bandTo(scrollRow, .6));
-    gsap.from(band, { scaleX: 0, transformOrigin: "left", duration: 1.4, ease: "expo.inOut", scrollTrigger: { trigger: ".why", start: "top 70%" } });
-    gsap.from(rows, { x: -80, autoAlpha: 0, stagger: .12, duration: 1.1, ease: "power3.out", scrollTrigger: { trigger: ".why", start: "top 70%" } });
+    block(".why", tl => {
+      tl.from(band, { scaleX: 0, transformOrigin: "left", duration: 1.2, ease: "expo.inOut" }, 0);
+      up(tl, ".why__row > *", .3, { x: -40, y: 0, stagger: .06 });
+    }, "top 70%");
     gsap.fromTo(".why__bg img", { yPercent: -12 }, { yPercent: 0, ease: "none", scrollTrigger: { trigger: ".why", start: "top bottom", end: "bottom top", scrub: true } });
 
-    /* Pathway columns */
-    gsap.from(".col", { yPercent: 18, autoAlpha: 0, stagger: .15, duration: 1.2, ease: "expo.out", scrollTrigger: { trigger: ".cols", start: "top 85%" } });
-    $$(".col").forEach((c, i) => {
-      gsap.fromTo(c.querySelector(".col__num"), { yPercent: i % 2 ? -10 : -90 }, { yPercent: i % 2 ? -90 : -10, ease: "none", scrollTrigger: { trigger: c, start: "top bottom", end: "bottom top", scrub: true } });
-      gsap.from(c.querySelectorAll(".col__text > *"), { y: 24, autoAlpha: 0, stagger: .1, duration: .9, ease: "power3.out", scrollTrigger: { trigger: c, start: "top 70%" } });
+    /* Pathway */
+    block(".path__intro", tl => {
+      title(tl, $("#path-title"), 0);
+      up(tl, ".path__intro .inner > *", .4, { stagger: .1 });
     });
+    block(".cols", tl => {
+      if (desktop) {
+        tl.from(".col", { yPercent: 12, autoAlpha: 0, stagger: .12, duration: 1.2, ease: "expo.out" }, 0);
+        up(tl, ".col__text > *", .4, { y: 24 });
+      }
+    });
+    if (!desktop) $$(".col").forEach(c => block(c, tl => { tl.from(c, { yPercent: 12, autoAlpha: 0, duration: 1.2, ease: "expo.out" }); up(tl, c.querySelectorAll(".col__text > *"), .3, { y: 24 }); }, "top 85%"));
+    $$(".col").forEach((c, i) => gsap.fromTo(c.querySelector(".col__num"), { yPercent: i % 2 ? -10 : -90 }, { yPercent: i % 2 ? -90 : -10, ease: "none", scrollTrigger: { trigger: c, start: "top bottom", end: "bottom top", scrub: true } }));
+    block(".path__center", tl => title(tl, $(".path__center .h2"), 0), "top 85%");
+    block(".feats", tl => grid(tl, ".feat", 0, { y: 40 }), "top 85%");
 
-    /* Feature columns: rules draw down, then content rises */
-    gsap.utils.toArray(".feat").forEach((f, i) => {
-      const tl = gsap.timeline({ scrollTrigger: { trigger: ".feats", start: "top 85%" }, delay: i * .1 });
-      tl.from(f.querySelector("img"), { scale: .4, autoAlpha: 0, duration: .8, ease: "back.out(2)" }, 0)
-        .from(f.querySelectorAll("h3, p"), { y: 24, autoAlpha: 0, stagger: .08, duration: .8, ease: "power3.out" }, .15);
+    /* Licensure and partners */
+    block(".lic__top", tl => {
+      up(tl, ".accred > div", 0, { x: -40, y: 0, stagger: .1 });
+      title(tl, $("#lic-title"), .15);
+      up(tl, ".lic__list li", .5, { y: 24, stagger: .1 });
     });
-    const featLines = $$(".feat").map(f => { const l = document.createElement("i"); l.style.cssText = "position:absolute;left:0;top:0;width:1px;height:100%;background:#fff;transform:scaleY(0);transform-origin:top;opacity:.6"; f.appendChild(l); return l; });
-    gsap.to(featLines, { scaleY: 1, stagger: .1, duration: 1.4, ease: "expo.inOut", scrollTrigger: { trigger: ".feats", start: "top 85%" } });
-    gsap.to(featLines, { opacity: 0, delay: 1.8, duration: .8, scrollTrigger: { trigger: ".feats", start: "top 85%" } });
-
-    /* Licensure */
-    gsap.from(".accred > div", { x: -60, autoAlpha: 0, stagger: .12, duration: 1, ease: "power3.out", scrollTrigger: { trigger: ".accred", start: "top 85%" } });
-    $$(".lic__list li").forEach((li, i) => {
-      const line = document.createElement("i");
-      line.style.cssText = "position:absolute;left:0;right:0;bottom:-1px;height:2px;background:#c8000c;transform-origin:right";
-      li.appendChild(line);
-      gsap.timeline({ scrollTrigger: { trigger: li, start: "top 88%" } })
-        .to(line, { scaleX: 0, duration: 1.2, ease: "expo.inOut", delay: i * .08 })
-        .from(li.querySelector("span"), { y: 24, autoAlpha: 0, duration: .9, ease: "power3.out" }, "<.1");
-    });
-    gsap.from(".cell", { autoAlpha: 0, scale: .85, duration: .8, ease: "power3.out", stagger: { each: .05, from: "random" }, scrollTrigger: { trigger: ".grid6", start: "top 88%" } });
+    block(".partners__head", tl => {
+      up(tl, ".partners__head > *", 0, { y: 24 });
+      tl.from(".cell", { autoAlpha: 0, y: 24, stagger: { each: .04, grid: "auto", from: "start" }, duration: .8 }, .2);
+    }, "top 85%");
 
     /* Campus cards: pinned stack on desktop */
     if (desktop) {
@@ -1063,41 +1067,61 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
           .fromTo(cards[i].querySelectorAll(".ccard__box > *"), { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: .1, duration: .35 }, i - .5);
         if (cards[i + 1]) tl.to(cards[i + 1], { x: () => cw() }, i - 1);
       }
-      gsap.from(".ccard:first-child .ccard__box > *", { y: 40, autoAlpha: 0, stagger: .1, duration: 1, ease: "power3.out", scrollTrigger: { trigger: ".campus", start: "top 70%" } });
+      block(".campus", t => up(t, ".ccard:first-child .ccard__box > *", 0, { stagger: .1 }), "top 70%");
+    } else {
+      block(".campus", t => up(t, ".ccard", 0, { x: 60, y: 0, stagger: .1 }), "top 80%");
     }
 
-    /* Life stats */
-    gsap.from(".life__stats > div", { y: 50, autoAlpha: 0, stagger: .1, duration: 1, ease: "power3.out", scrollTrigger: { trigger: ".life__stats", start: "top 85%" } });
+    /* Campus life */
+    block(".life", tl => {
+      up(tl, ".life__stats > div", 0, { stagger: .1 });
+      $$(".life [data-count]").forEach((el, i) => tl.add(count(el), .1 + i * .1));
+      title(tl, $("#life-title"), desktop ? .2 : .6);
+      up(tl, ".life__copy > [data-reveal]", desktop ? .6 : 1, { stagger: .1 });
+    });
 
     /* Dubai */
-    gsap.from(".dubai__img", { clipPath: "inset(0 100% 0 0)", duration: 1.6, ease: "expo.inOut", scrollTrigger: { trigger: ".dubai", start: "top 75%" } });
+    block(".dubai", tl => {
+      tl.from(".dubai__img", { clipPath: "inset(0 100% 0 0)", duration: 1.4, ease: "expo.inOut" }, 0);
+      title(tl, $("#dubai-title"), .5);
+      up(tl, ".fact", .8, { stagger: .1 });
+      up(tl, ".dubai__body > [data-reveal]", 1.1);
+    }, "top 70%");
     gsap.fromTo(".dubai__img img", { scale: 1.25 }, { scale: 1, ease: "none", scrollTrigger: { trigger: ".dubai", start: "top bottom", end: "bottom top", scrub: true } });
-    gsap.from(".fact", { y: 40, autoAlpha: 0, stagger: .1, duration: .9, ease: "power3.out", scrollTrigger: { trigger: ".facts", start: "top 85%" } });
-    $$(".fact").forEach((f, i) => {
-      const l = document.createElement("i"); l.style.cssText = "position:absolute;left:0;right:0;bottom:0;height:1px;background:#fff;transform:scaleX(0);transform-origin:left"; f.appendChild(l);
-      gsap.timeline({ scrollTrigger: { trigger: ".facts", start: "top 85%" } }).to(l, { scaleX: 1, duration: 1, ease: "expo.inOut", delay: .3 + i * .1 }).to(l, { opacity: 0, duration: .6 });
-    });
 
     /* Testimonials */
-    gsap.from(".tcard", { x: 120, autoAlpha: 0, stagger: .12, duration: 1.2, ease: "expo.out", scrollTrigger: { trigger: ".track", start: "top 85%" } });
-    gsap.from(".arrow", { scale: 0, stagger: .1, duration: .7, ease: "back.out(2)", scrollTrigger: { trigger: ".arrows", start: "top 90%" } });
-
-    /* Steps: outlined numbers fill as you scroll */
-    $$(".step").forEach((s, i) => {
-      gsap.to(s.querySelector(".step__n"), { backgroundPosition: "0% 100%", ease: "none", scrollTrigger: { trigger: ".steps", start: () => `top ${80 - i * 6}%`, end: () => `top ${45 - i * 6}%`, scrub: true } });
-      gsap.from(s.querySelector(".step__t"), { y: 40, autoAlpha: 0, duration: 1, ease: "power3.out", delay: i * .08, scrollTrigger: { trigger: ".steps", start: "top 80%" } });
+    block(".stories__head", tl => {
+      title(tl, $("#stories-title"), 0);
+      up(tl, ".arrow", .3, { y: 0, scale: .6, stagger: .08 });
+      up(tl, ".tcard", .4, { x: 80, y: 0, stagger: .1, duration: 1.1 });
     });
 
+    /* Steps: outlined numbers fill as you scroll, text follows in order */
+    block(".steps__title", tl => title(tl, $(".steps__title .h2"), 0), "top 85%");
+    $$(".step").forEach((s, i) => {
+      gsap.to(s.querySelector(".step__n"), { backgroundPosition: "0% 100%", ease: "none", scrollTrigger: { trigger: desktop ? ".steps" : s, start: () => desktop ? `top ${80 - i * 6}%` : "top 85%", end: () => desktop ? `top ${45 - i * 6}%` : "top 50%", scrub: .5 } });
+    });
+    block(".steps", tl => grid(tl, ".step__t", 0, { y: 30 }), "top 80%");
+
     /* Apply cards */
-    gsap.from(".acard", { y: 100, autoAlpha: 0, stagger: .14, duration: 1.2, ease: "expo.out", scrollTrigger: { trigger: ".apply", start: "top 85%" } });
+    block(".apply", tl => grid(tl, ".acard", 0, { y: 80, stagger: .12, duration: 1.2 }), "top 85%");
     $$(".acard").forEach(c => gsap.fromTo(c.querySelector("img"), { yPercent: -6 }, { yPercent: 6, ease: "none", scrollTrigger: { trigger: c, start: "top bottom", end: "bottom top", scrub: true } }));
 
-    /* FAQ + footer */
-    gsap.from(".acc", { y: 30, autoAlpha: 0, stagger: .06, duration: .8, ease: "power3.out", scrollTrigger: { trigger: ".faq__list", start: "top 85%" } });
-    gsap.from(".ask", { y: 30, autoAlpha: 0, duration: .9, ease: "power3.out", scrollTrigger: { trigger: ".ask", start: "top 92%" } });
-    gsap.from(".rule", { scaleX: 0, duration: 1.6, ease: "expo.inOut", scrollTrigger: { trigger: ".rule", start: "top 95%" } });
-    gsap.from(".cta__side > *", { y: 30, autoAlpha: 0, stagger: .1, duration: .9, ease: "power3.out", scrollTrigger: { trigger: ".cta__row", start: "top 85%" } });
-    gsap.from(".foot__grid > *", { y: 30, autoAlpha: 0, stagger: .06, duration: .8, ease: "power3.out", scrollTrigger: { trigger: ".foot__grid", start: "top 92%" } });
+    /* FAQ */
+    block(".faq", tl => {
+      title(tl, $("#faq-title"), 0);
+      up(tl, ".faq__left .lead", .3);
+      up(tl, ".acc", .4, { y: 24, stagger: .05, duration: .8 });
+      up(tl, ".ask", .8);
+    });
+
+    /* Footer */
+    block(".cta", tl => {
+      title(tl, $(".cta .h2"), 0);
+      up(tl, ".cta__side > *", .3, { stagger: .1 });
+      tl.from(".rule", { scaleX: 0, transformOrigin: "left", duration: 1.4, ease: "expo.inOut" }, .4);
+    });
+    block(".foot__grid", tl => up(tl, ".foot__grid > *", 0, { y: 24, stagger: .05, duration: .8 }), "top 90%");
 
     return () => { $(".campus").classList.remove("is-pinned"); gsap.set(".ccard", { clearProps: "all" }); };
   });
