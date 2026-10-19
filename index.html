@@ -1,0 +1,1105 @@
+<meta charset="utf-8">
+<title>MDX Dubai January Intake</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:wght@400;500;700&family=Inter:wght@400;500;700&family=Unbounded:wght@400;800;900&display=swap">
+<style>
+/* Layout: the 1920px Figma frame scaled by --s (1 design px), stacking to one column below 1100px / 700px. Single committed look from the MDX brand. */
+:root {
+  --ink: #000;
+  --paper: #fff;
+  --red: #e30613;
+  --red-deep: #c8000c;
+  --red-cell: #d60c18;
+  --orange: #fd4f00;
+  --amber: #f47d07;
+  --violet: #7449f4;
+  --indigo: #1c005e;
+  --night: #0a0039;
+  --deep: #231465;
+  --pink: #e50159;
+  --muted: #212529;
+  --display: "Unbounded", "Arial Black", "Helvetica Neue", sans-serif;
+  --body: "Fira Sans Condensed", "Arial Narrow", "Helvetica Neue", sans-serif;
+  --util: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --s: min(calc(100vw / 1920), 1px);
+  --gut: max(16px, calc(60 * var(--s)));
+  --h2: max(38px, calc(86 * var(--s)));
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: auto; }
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font: 400 17px/28px var(--body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 60; background: var(--paper); }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+.wrap {
+  padding-left: max(16px, env(safe-area-inset-left, 0px), calc(60 * var(--s)));
+  padding-right: max(16px, env(safe-area-inset-right, 0px), calc(60 * var(--s)));
+  max-width: 1920px; margin-inline: auto;
+}
+.h2 { font: 900 var(--h2)/0.95 var(--display); text-transform: uppercase; letter-spacing: 0.01em; margin: 0; text-wrap: balance; }
+.h3 { font: 900 max(28px, calc(44 * var(--s)))/1.1 var(--display); margin: 0; }
+.lead { font-size: 17px; line-height: 28px; margin: 0; max-width: 60ch; }
+.w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.06em; margin-bottom: -0.06em; }
+.w > span { display: inline-block; will-change: transform; }
+
+/* Buttons */
+.btn {
+  position: relative; display: inline-flex; align-items: center; gap: 12px; height: 49px;
+  padding: 0 7px 0 22px; border-radius: 71px; font: 500 18px/22px var(--body);
+  white-space: nowrap; overflow: hidden; isolation: isolate; transition: color .35s ease;
+}
+.btn::before { content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1; transform: scaleX(0); transform-origin: right; transition: transform .5s cubic-bezier(.7,0,.2,1); }
+.btn:hover::before { transform: scaleX(1); transform-origin: left; }
+.btn__ic { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; flex: none; transition: transform .45s cubic-bezier(.7,0,.2,1); }
+.btn__ic svg { width: 18px; height: 18px; }
+.btn:hover .btn__ic { transform: rotate(-45deg); }
+.btn--diag:hover .btn__ic { transform: rotate(45deg); }
+.btn--red { background: var(--red); color: var(--paper); }
+.btn--red::before { background: var(--ink); }
+.btn--red .btn__ic { background: var(--paper); color: var(--red); }
+.btn--white { background: var(--paper); color: var(--ink); }
+.btn--white::before { background: var(--orange); }
+.btn--white:hover { color: var(--paper); }
+.btn--white .btn__ic { background: var(--ink); color: var(--paper); }
+.btn--line { padding: 0 22px; border: 1px solid currentColor; }
+.btn--line::before { background: currentColor; }
+.btn--line.on-dark:hover { color: var(--ink); }
+.btn--line.on-light:hover { color: var(--paper); }
+.btn--line.on-light::before { background: var(--ink); }
+.btn--line.on-dark::before { background: var(--paper); }
+.btn--line.on-dark:hover span { color: var(--ink); }
+.btn--sm { height: 51px; padding: 0 25px; font-size: 16px; }
+
+/* Header */
+.site-header {
+  position: fixed; top: env(safe-area-inset-top, 0px); left: 0; right: 0; z-index: 50;
+  color: var(--paper); transition: background-color .4s ease, color .4s ease, border-color .4s ease, transform .5s cubic-bezier(.7,0,.2,1);
+  border-bottom: 1px solid transparent;
+}
+.site-header .wrap { display: flex; align-items: center; justify-content: space-between; height: max(76px, calc(132 * var(--s))); transition: height .4s ease; }
+.site-header.is-solid { background: var(--paper); color: var(--ink); border-color: #efefef; }
+.site-header.is-solid .wrap { height: max(72px, calc(108 * var(--s))); }
+.site-header.is-hidden { transform: translateY(-110%); }
+.logo { position: relative; width: 151px; height: 60px; flex: none; margin-left: 6px; }
+.logo img { position: absolute; inset: 0; width: 151px; height: 60px; transition: opacity .4s ease; }
+.logo .logo--color { opacity: 0; }
+.is-solid .logo .logo--color { opacity: 1; }
+.is-solid .logo .logo--white { opacity: 0; }
+.nav { display: flex; align-items: center; gap: max(20px, calc(32 * var(--s))); }
+.nav__links { display: flex; gap: max(16px, calc(27 * var(--s))); }
+.nav__links a { position: relative; white-space: nowrap; font-size: max(15px, calc(18 * var(--s))); line-height: 24px; letter-spacing: .3px; padding: 6px 0; }
+.nav__links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 2px; height: 1.5px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .4s cubic-bezier(.7,0,.2,1); }
+.nav__links a:hover::after { transform: scaleX(1); transform-origin: left; }
+.nav__actions { display: flex; align-items: center; gap: 16px; }
+.nav__ctas { display: flex; align-items: center; gap: 18px; }
+.icon-btn { width: 52px; height: 52px; display: grid; place-items: center; border-radius: 50%; transition: background-color .3s ease; }
+.icon-btn:hover { background: rgba(127,127,127,.15); }
+.icon-btn svg { width: 26px; height: 26px; }
+.burger { display: flex; flex-direction: column; gap: 6px; }
+.burger i { display: block; width: 26px; height: 2px; background: currentColor; }
+.site-header .btn--line.hdr { color: inherit; }
+.site-header .btn--line.hdr:hover { color: var(--ink); }
+.site-header.is-solid .btn--line.hdr:hover { color: var(--paper); }
+.site-header .btn--line.hdr::before { background: var(--paper); }
+.site-header.is-solid .btn--line.hdr::before { background: var(--ink); }
+
+/* Menu overlay */
+.menu { position: fixed; inset: 0; z-index: 70; background: var(--indigo); color: var(--paper); display: flex; flex-direction: column; visibility: hidden; clip-path: inset(0 0 100% 0); }
+.menu .wrap { width: 100%; }
+.menu__top { display: flex; justify-content: space-between; align-items: center; height: max(76px, calc(132 * var(--s))); padding-top: env(safe-area-inset-top, 0px); }
+.menu__list { list-style: none; margin: 0; padding: 4vh 0 0; display: grid; gap: 1vh; }
+.menu__list a { display: inline-block; font: 900 clamp(30px, 6vw, 84px)/1.1 var(--display); text-transform: uppercase; transition: color .3s ease; }
+.menu__list a:hover { color: var(--orange); }
+.menu__foot { margin-top: auto; padding-bottom: max(32px, env(safe-area-inset-bottom, 0px)); display: flex; gap: 16px; flex-wrap: wrap; }
+.close { width: 52px; height: 52px; position: relative; }
+.close::before, .close::after { content: ""; position: absolute; left: 13px; top: 25px; width: 26px; height: 2px; background: currentColor; transform: rotate(45deg); }
+.close::after { transform: rotate(-45deg); }
+
+/* Hero */
+.hero { position: relative; overflow: hidden; background: linear-gradient(180deg, var(--indigo) calc(1019 * var(--s)), #000 calc(1768 * var(--s))); }
+.hero__media { position: absolute; left: 0; right: 0; top: 0; height: max(620px, calc(1052 * var(--s))); overflow: hidden; background: linear-gradient(180deg, var(--night) 10%, #000 86%); }
+.hero__media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; transform-origin: 50% 40%; }
+.hero__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(79,27,191,0) 32.3%, rgba(37,5,111,.82) 72.6%, var(--indigo) 87.7%); }
+.hero__top { position: relative; min-height: max(620px, calc(1052 * var(--s))); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 486px); column-gap: 40px; align-items: end; padding-top: calc(160 * var(--s) + 90px); padding-bottom: calc(168 * var(--s)); padding-right: max(16px, env(safe-area-inset-right, 0px), calc(213 * var(--s))) !important; }
+.hero__title { grid-column: 1 / -1; grid-row: 1; align-self: end; font: 900 max(52px, calc(182 * var(--s)))/0.9 var(--display); text-transform: uppercase; margin: 0; letter-spacing: -0.005em; }
+.hero__title .ln { display: block; overflow: hidden; padding-bottom: .04em; margin-bottom: -.04em; }
+.hero__title .ln > span { display: inline-block; }
+.hero__aside { grid-column: 2; grid-row: 1; align-self: end; display: grid; gap: 32px; padding-bottom: calc(27 * var(--s)); }
+.hero__aside p { margin: 0; font-size: 17px; line-height: 28px; }
+.btn-row { display: flex; gap: 20px; flex-wrap: wrap; }
+.hero__bottom { position: relative; display: grid; grid-template-columns: minmax(0, calc(837 * var(--s))) minmax(0, 1fr); column-gap: 32px; padding-top: calc(24 * var(--s)); padding-bottom: max(72px, calc(144 * var(--s))); }
+.hero__intro { max-width: 558px; display: grid; gap: max(32px, calc(54 * var(--s))); justify-items: start; align-content: start; }
+.hero__intro p { margin: 0; }
+.stats { display: grid; grid-template-columns: minmax(0, 455fr) minmax(0, 425fr); column-gap: calc(83 * var(--s) + 8px); row-gap: max(32px, calc(53 * var(--s))); }
+.stat { position: relative; display: grid; gap: max(16px, calc(30 * var(--s))); padding-bottom: max(28px, calc(47 * var(--s))); text-transform: uppercase; }
+.stat::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: rgba(255,255,255,.2); transform-origin: left; }
+.stat__num { display: flex; align-items: flex-start; font: 900 max(48px, calc(107.5 * var(--s)))/1 var(--display); letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.stat__num sup { font: 400 max(24px, calc(51 * var(--s)))/1 var(--display); color: var(--orange); top: 0; }
+.stat__label { font: 500 max(18px, calc(24 * var(--s)))/1.2 var(--body); }
+
+/* What to study */
+.study { background: var(--paper); color: var(--ink); }
+.study .wrap { display: grid; grid-template-columns: minmax(0, calc(837 * var(--s))) minmax(0, 1fr); column-gap: 32px; padding-block: max(80px, calc(150 * var(--s))); }
+.study__left { display: flex; flex-direction: column; justify-content: space-between; gap: 64px; }
+.study__left .h2 { max-width: 7.5em; }
+.tabs { position: relative; display: grid; gap: calc(34 * var(--s) + 6px); justify-items: start; }
+.tab { font: 900 max(28px, calc(44 * var(--s)))/1.1 var(--display); letter-spacing: .01em; padding: 6px 0; color: var(--ink); opacity: .2; transition: opacity .35s ease, color .35s ease; text-align: left; }
+.tab:hover { opacity: .45; }
+.tab[aria-selected="true"] { opacity: 1; color: var(--orange); }
+.tab-ind { position: absolute; left: 0; top: 0; height: 6px; background: var(--orange); width: 0; pointer-events: none; }
+.study__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: max(32px, calc(60 * var(--s))); }
+.study__head h3 { font: 900 max(22px, calc(26 * var(--s)))/1.1 var(--display); margin: 0; max-width: 455px; }
+.panel[hidden] { display: none !important; }
+.cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; row-gap: max(36px, calc(60 * var(--s))); }
+.pcard { position: relative; display: grid; gap: 30px; padding-bottom: 24px; border-bottom: 1.5px solid rgba(0,0,0,.1); }
+.pcard__img { position: relative; height: max(150px, calc(170 * var(--s))); overflow: hidden; }
+.pcard__img img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s cubic-bezier(.2,.7,.2,1); }
+.pcard__dot { position: absolute; width: 216px; height: 216px; border-radius: 50%; background: var(--orange); right: -76px; top: -216px; transition: transform .6s cubic-bezier(.7,0,.2,1); }
+.pcard__dot svg { position: absolute; left: 62px; top: 150px; width: 26px; height: 26px; color: var(--paper); transform: rotate(-45deg); }
+.pcard:hover .pcard__dot, .pcard:focus-visible .pcard__dot { transform: translateY(110px); }
+.pcard:hover .pcard__img img { transform: scale(1.06); }
+.pcard__title { font: 500 20px/1.2 var(--body); margin: 0; max-width: 333px; }
+.pcard::after { content: ""; position: absolute; left: 0; bottom: -1.5px; height: 1.5px; width: 100%; background: var(--orange); transform: scaleX(0); transform-origin: left; transition: transform .6s cubic-bezier(.7,0,.2,1); }
+.pcard:hover::after { transform: scaleX(1); }
+.panel--cta { display: grid; gap: 24px; align-content: start; padding: max(32px, calc(48 * var(--s))); background: #f5f5f5; }
+.panel--cta p { margin: 0; max-width: 46ch; }
+
+/* Why January */
+.why { position: relative; overflow: hidden; background: #000; }
+.why__bg { position: absolute; inset: 0; }
+.why__bg img { width: 100%; height: 120%; object-fit: cover; object-position: 50% 100%; }
+.why__band { position: absolute; left: 0; top: 0; width: calc(1678 * var(--s)); height: max(180px, calc(220 * var(--s))); background: var(--orange); }
+.why__list { position: relative; list-style: none; margin: 0; padding-top: max(80px, calc(150 * var(--s))); padding-bottom: max(100px, calc(205 * var(--s))); display: grid; row-gap: max(90px, calc(130 * var(--s))); }
+.why__row { display: grid; grid-template-columns: calc(160 * var(--s) + 40px) minmax(0, 1fr); column-gap: calc(120 * var(--s)); align-items: start; cursor: default; }
+.why__row:nth-child(even) { margin-left: calc(357 * var(--s)); }
+.why__row:nth-child(even) .why__desc { max-width: 445px; }
+.why__num { font: 400 max(44px, calc(90 * var(--s)))/1 var(--display); letter-spacing: -0.01em; }
+.why__title { font: 400 max(22px, calc(32 * var(--s)))/1.1 var(--display); margin: 0; letter-spacing: .01em; }
+.why__desc { font: 500 17px/1.66 var(--body); margin: 0; }
+.why__body { display: grid; grid-template-columns: minmax(0, calc(297 * var(--s) + 40px)) minmax(0, 529px); column-gap: calc(60 * var(--s)); align-items: center; }
+
+/* Pathway */
+.path { background: linear-gradient(180deg, #000 27.33%, var(--deep) 132%); }
+.path__top { display: grid; grid-template-columns: minmax(0, 583px) minmax(0, 1063px); justify-content: space-between; column-gap: 40px; padding-top: max(80px, calc(106 * var(--s))); }
+.path__intro { display: grid; gap: 32px; align-content: start; }
+.path__intro .inner { display: grid; gap: max(32px, calc(54 * var(--s))); justify-items: start; max-width: 540px; }
+.cols { display: grid; grid-template-columns: 343.667fr 343.667fr 343.667fr; gap: 16px; height: max(520px, calc(664 * var(--s))); }
+.col { position: relative; overflow: hidden; }
+.col--1 { background: linear-gradient(180deg, var(--amber) 11.4%, #b95000 69%); }
+.col--2 { background: linear-gradient(180deg, #3b008e 0%, #6206e3 57.2%); }
+.col--3 { background: linear-gradient(180deg, var(--red) 39.8%, #7d030a 100%); }
+.col__num { position: absolute; left: calc(-110 / 343.667 * 100%); font: 400 max(150px, calc(232 * var(--s)))/1 var(--display); letter-spacing: -0.01em; }
+.col--1 .col__num, .col--3 .col__num { top: calc(150 / 664 * 100%); transform: translateY(-50%); }
+.col--2 .col__num { top: calc(528 / 664 * 100%); transform: translateY(-50%); }
+.col__text { position: absolute; left: calc(30 / 343.667 * 100%); right: calc(34 / 343.667 * 100%); display: grid; gap: 26px; }
+.col--1 .col__text { bottom: calc(70 / 664 * 100%); }
+.col--3 .col__text { bottom: calc(70 / 664 * 100%); }
+.col--2 .col__text { top: calc(50 / 664 * 100%); }
+.col__text h3 { font: 800 max(18px, calc(24 * var(--s)))/1.2 var(--display); margin: 0; max-width: 252px; }
+.col__text p { margin: 0; font-size: 17px; line-height: 1.5; }
+.path__center { text-align: center; padding-top: max(100px, calc(250 * var(--s))); padding-bottom: max(48px, calc(80 * var(--s))); }
+.path__center .h2 { max-width: 913px; margin-inline: auto; }
+.feats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 42px; padding-bottom: max(80px, calc(150 * var(--s))); }
+.feat { position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 48px; min-height: max(300px, calc(383 * var(--s))); padding-left: 30px; }
+.feat::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,.2); transform-origin: top; }
+.feat img { width: 70px; height: 70px; margin-top: 25px; }
+.feat h3 { font: 700 24px/1.2 var(--body); margin: 0 0 16px; max-width: 226px; }
+.feat p { margin: 0; }
+
+/* Licensure */
+.lic { background: var(--red-deep); }
+.lic__top { display: grid; grid-template-columns: minmax(0, 427px) minmax(0, 1fr); column-gap: calc(220 * var(--s)); padding-top: max(80px, calc(150 * var(--s))); padding-left: max(16px, env(safe-area-inset-left, 0px), calc(150 * var(--s))) !important; }
+.accred { display: grid; gap: 12px; align-content: start; }
+.accred div { background: var(--paper); height: max(150px, calc(197 * var(--s))); display: grid; place-items: center; overflow: hidden; }
+.accred img { width: 100%; height: 100%; object-fit: contain; }
+.lic__body { display: grid; gap: max(36px, calc(60 * var(--s))); align-content: start; }
+.lic__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 40px; }
+.lic__list li { position: relative; padding-bottom: 30px; font: 500 max(19px, calc(24 * var(--s)))/1.3 var(--body); }
+.lic__list li span { display: block; max-width: 749px; }
+.lic__list li::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--paper); transform-origin: left; }
+.partners__head { display: grid; grid-template-columns: minmax(0, calc(737 * var(--s))) minmax(0, 1fr); column-gap: 32px; align-items: end; padding-top: max(72px, calc(110 * var(--s))); padding-bottom: max(32px, calc(60 * var(--s))); }
+.partners__head .h3 { grid-column: 2; max-width: 412px; }
+.partners__head .btn { justify-self: end; grid-column: 3; }
+.partners__head { grid-template-columns: minmax(0, calc(677 * var(--s))) minmax(0, 1fr) auto; }
+.grid6 { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); padding-bottom: max(80px, calc(150 * var(--s))) !important; }
+.cell { position: relative; aspect-ratio: 300.874 / 183.85; background: var(--red-cell); border: 2px solid var(--red-deep); margin: -1px; display: grid; place-items: center; overflow: hidden; transition: background-color .4s ease; }
+.cell img { width: 100%; height: 100%; object-fit: contain; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.cell:hover { background: #a3000a; }
+.cell:hover img { transform: scale(1.08); }
+
+/* Campus cards */
+.campus { position: relative; background: #000; overflow: hidden; }
+.campus__stage { position: relative; display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.campus__stage::-webkit-scrollbar { display: none; }
+.ccard { position: relative; flex: 0 0 calc(1547 / 1920 * 100%); scroll-snap-align: start; height: max(520px, calc(900 * var(--s))); border: 8px solid var(--paper); border-top: 0; overflow: hidden; box-shadow: -29px 0 50px rgba(0,0,0,.15); background: #ddd8cc; }
+.ccard img { width: 100%; height: 100%; object-fit: cover; }
+.campus.is-pinned .campus__stage { display: block; overflow: visible; height: max(520px, calc(900 * var(--s))); }
+.campus.is-pinned .ccard { position: absolute; top: 0; left: 0; width: calc(1547 / 1920 * 100%); height: 100%; }
+.ccard__shade { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; }
+.ccard__box { position: absolute; left: 0; bottom: 0; width: calc(802 / 1531 * 100%); min-height: calc(230 / 892 * 100%); padding: max(28px, calc(50 * var(--s))) max(24px, calc(60 * var(--s))); display: grid; gap: 20px; align-content: start; }
+.ccard__box h3 { font: 900 max(26px, calc(42 * var(--s)))/1.3 var(--display); margin: 0; }
+.ccard__box p { margin: 0; line-height: 1.5; max-width: 497px; }
+.campus.is-pinned .campus__count { display: block; }
+.ccard:nth-child(1) .ccard__box { background: var(--orange); }
+.ccard:nth-child(2) .ccard__box { background: var(--violet); }
+.ccard:nth-child(3) .ccard__box { background: var(--amber); }
+.ccard:nth-child(4) .ccard__box { background: var(--red); }
+.campus__count { display: none; position: absolute; right: max(16px, calc(60 * var(--s))); bottom: 28px; font: 400 14px/1 var(--util); letter-spacing: .1em; color: rgba(255,255,255,.7); z-index: 5; }
+
+/* Campus life */
+.life { background: var(--paper); color: var(--ink); }
+.life .wrap { display: grid; grid-template-columns: minmax(0, 810px) minmax(0, 804px); justify-content: space-between; column-gap: 64px; padding-block: max(80px, calc(150 * var(--s))); }
+.life__stats { display: grid; grid-template-columns: repeat(2, minmax(0, 300px)); column-gap: calc(128 * var(--s) + 24px); row-gap: max(40px, calc(68 * var(--s))); align-content: center; text-transform: uppercase; }
+.life__stats .n { font: 900 max(48px, calc(90 * var(--s)))/1 var(--display); letter-spacing: -0.01em; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.life__stats .l { font: 500 max(18px, calc(24 * var(--s)))/1.2 var(--body); margin-top: 22px; }
+.life__copy { display: grid; gap: max(32px, calc(54 * var(--s))); justify-items: start; align-content: start; }
+.life__copy .h3 { line-height: 1.2; }
+
+/* Dubai */
+.dubai { background: var(--orange); display: grid; grid-template-columns: calc(883 / 1920 * 100%) minmax(0, 1fr); min-height: max(640px, calc(961 * var(--s))); }
+.dubai__img { position: relative; overflow: hidden; }
+.dubai__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.dubai__body { display: grid; gap: max(36px, calc(60 * var(--s))); align-content: center; padding-left: calc(154 * var(--s) + 24px) !important; padding-right: max(16px, env(safe-area-inset-right, 0px), calc(94 * var(--s))) !important; padding-block: 64px; }
+.dubai__body .h2 { max-width: 789px; }
+.dubai__body > .btn { justify-self: start; }
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 348px)); justify-content: space-between; column-gap: 32px; row-gap: 32px; max-width: 773px; }
+.fact { position: relative; display: grid; gap: 16px; padding-bottom: 24px; align-content: start; }
+.fact::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: #ddd; transform-origin: left; }
+.fact h3 { font: 700 24px/1.2 var(--body); margin: 0; }
+.fact p { margin: 0; }
+
+/* Stories, steps, apply */
+.stories { background: linear-gradient(180deg, #000 14.2%, var(--deep) 103.8%); }
+.stories__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; padding-top: max(80px, calc(150 * var(--s))); padding-bottom: max(40px, calc(80 * var(--s))); }
+.arrows { display: flex; gap: 20px; padding-bottom: 15px; }
+.arrow { width: 53px; height: 53px; border-radius: 50%; background: var(--paper); color: var(--ink); display: grid; place-items: center; transition: background-color .3s ease, color .3s ease, transform .3s ease; }
+.arrow:hover { background: var(--orange); color: var(--paper); }
+.arrow:active { transform: scale(.94); }
+.arrow svg { width: 20px; height: 20px; }
+.track { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-left: max(16px, env(safe-area-inset-left, 0px), calc(60 * var(--s))); padding-right: max(16px, env(safe-area-inset-right, 0px), calc(60 * var(--s))); scroll-padding-left: max(16px, env(safe-area-inset-left, 0px), calc(60 * var(--s))); }
+.track::-webkit-scrollbar { display: none; }
+.tcard { flex: 0 0 min(737px, 86vw); scroll-snap-align: start; background: var(--paper); color: var(--ink); min-height: max(400px, calc(442 * var(--s))); position: relative; overflow: hidden; }
+.tcard--quote { display: flex; flex-direction: column; justify-content: space-between; gap: 30px; padding: max(28px, calc(40 * var(--s))); }
+.tcard__q { font: 900 72px/0.6 var(--display); height: 38px; display: block; }
+.tcard--quote blockquote { margin: 40px 0 0; font: 500 max(19px, calc(22 * var(--s)))/1.5 var(--body); }
+.who { display: grid; gap: 12px; font-size: 18px; line-height: 1.2; }
+.who b { font-weight: 700; }
+.tcard--video img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
+.tcard--video:hover img { transform: scale(1.05); }
+.tcard--video::after { content: ""; position: absolute; left: 0; right: 0; bottom: -61px; height: 348px; background: linear-gradient(180deg, rgba(253,79,0,0) 0%, rgba(253,79,0,.78) 48%, var(--orange) 75.9%); }
+.tcard--video .who { position: absolute; z-index: 1; left: max(28px, calc(40 * var(--s))); bottom: 40px; color: var(--paper); }
+.play { position: absolute; z-index: 1; right: max(28px, calc(40 * var(--s))); bottom: 40px; width: 76px; height: 76px; border-radius: 50%; background: var(--paper); display: grid; place-items: center; color: var(--ink); }
+.play::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--paper); animation: ping 2.4s cubic-bezier(.2,.7,.2,1) infinite; }
+@keyframes ping { from { transform: scale(1); opacity: .9; } to { transform: scale(1.6); opacity: 0; } }
+.play svg { width: 26px; height: 26px; margin-left: 4px; }
+.steps__title { text-align: center; padding-top: max(100px, calc(250 * var(--s))); padding-bottom: max(40px, calc(80 * var(--s))); }
+.steps__title .h2 { max-width: 913px; margin-inline: auto; }
+.steps { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: max(28px, calc(100 * var(--s))); }
+.step { display: grid; grid-template-rows: auto 1fr; gap: 20px; min-height: max(300px, calc(425 * var(--s))); }
+.step__n {
+  font: 900 max(160px, calc(272 * var(--s)))/1 var(--display); letter-spacing: .01em; height: max(150px, calc(265 * var(--s))); overflow: hidden;
+  color: transparent; -webkit-text-stroke: 1.5px rgba(255,255,255,.28);
+  background-image: linear-gradient(0deg, var(--orange) 0%, var(--red) 50%, transparent 50%);
+  background-size: 100% 200%; background-position: 0 0; -webkit-background-clip: text; background-clip: text;
+}
+.step__t { align-self: end; }
+.step h3 { font: 700 24px/1.2 var(--body); margin: 0 0 16px; max-width: 226px; }
+.step p { margin: 0; }
+.apply { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 13.5px; padding-top: max(72px, calc(150 * var(--s))); padding-bottom: max(80px, calc(150 * var(--s))) !important; }
+.acard { position: relative; overflow: hidden; height: max(520px, calc(630 * var(--s))); display: flex; align-items: flex-end; }
+.acard img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
+.acard:hover img { transform: scale(1.06); }
+.acard__body { position: relative; display: grid; gap: 40px; justify-items: start; padding: 0 max(24px, calc(50 * var(--s))) max(48px, calc(64 * var(--s))); max-width: 526px; }
+.acard__body h3 { font: 900 max(24px, calc(28 * var(--s)))/1.2 var(--display); margin: 0 0 24px; }
+.acard__body p { margin: 0; }
+.acard--1 { background: var(--red); }
+.acard--2 { background: #8256ff; }
+.acard--3 { background: var(--amber); }
+
+/* FAQ */
+.faq { background: var(--paper); color: var(--ink); }
+.faq .wrap { display: grid; grid-template-columns: minmax(0, 737px) minmax(0, 823px); justify-content: space-between; column-gap: 64px; padding-block: max(80px, calc(140 * var(--s))); }
+.faq__left { display: flex; flex-direction: column; justify-content: space-between; gap: 64px; min-height: max(0px, calc(565 * var(--s))); }
+.faq__left .top { display: grid; gap: 32px; }
+.ask { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; padding-bottom: 40px; border-bottom: 1.5px solid var(--ink); max-width: 634px; flex-wrap: wrap; }
+.ask p { font: 900 max(24px, calc(34 * var(--s)))/1.2 var(--display); margin: 0; max-width: 411px; }
+.acc { border-bottom: 1px solid var(--ink); }
+.acc:not(:first-child) { padding-top: 12px; }
+.acc__q { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px 0; text-align: left; font: 700 20px/34px var(--body); }
+.acc:first-child .acc__q { padding-top: 0; }
+.acc__q:hover { color: var(--red); }
+.pm { position: relative; flex: none; width: 32px; height: 32px; }
+.pm::before, .pm::after { content: ""; position: absolute; left: 7px; top: 15px; width: 18px; height: 2.4px; background: var(--pink); transition: transform .45s cubic-bezier(.7,0,.2,1); }
+.pm::after { transform: rotate(90deg); }
+.acc__q[aria-expanded="true"] .pm::after { transform: rotate(0deg); }
+.acc__a { overflow: hidden; height: 0; }
+.acc__a p { margin: 0; padding-bottom: 22px; max-width: 680px; color: var(--muted); line-height: 1.5; }
+.acc.is-open .acc__a { height: auto; }
+
+/* Footer */
+.cta { background: linear-gradient(180deg, var(--deep) 17%, #000 29.3%), #000; }
+.cta__row { display: flex; align-items: center; justify-content: space-between; gap: 40px; padding-top: max(80px, calc(110 * var(--s))); padding-bottom: max(56px, calc(84 * var(--s))); flex-wrap: wrap; }
+.cta__row .h2 { max-width: 1004px; }
+.cta__side { display: flex; align-items: flex-start; gap: max(24px, calc(80 * var(--s))); max-width: 798px; flex-wrap: wrap; }
+.cta__side p { margin: 0; max-width: 446px; line-height: 32px; }
+.rule { height: 1px; background: rgba(255,255,255,.18); margin-inline: auto; width: min(1810px, calc(100% - 2 * max(16px, calc(55 * var(--s))))); transform-origin: left; }
+.foot { background: #000; font-family: var(--util); }
+.foot__grid { display: grid; grid-template-columns: 175px repeat(7, auto); justify-content: space-between; column-gap: 20px; row-gap: 40px; padding-top: max(56px, calc(85 * var(--s))); padding-bottom: max(56px, calc(85 * var(--s))); padding-left: max(16px, env(safe-area-inset-left, 0px), calc(47 * var(--s))) !important; }
+.foot__grid img { width: 175px; height: 70px; }
+.foot h4 { font: 700 16px/26.92px var(--util); margin: 0 0 16px; }
+.foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 15.7px; }
+.foot h4, .foot li a { white-space: nowrap; }
+.foot li a { font: 500 13.5px/22.67px var(--util); letter-spacing: .3px; color: #fff; transition: color .3s ease; }
+.foot li a:hover { color: var(--red); }
+.socials { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-bottom: 32px; padding-left: max(16px, env(safe-area-inset-left, 0px), calc(47 * var(--s))) !important; flex-wrap: wrap; }
+.socials ul { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+.socials li a { display: inline-flex; align-items: center; gap: 7px; font: 400 14px/16px var(--util); }
+.socials li img { width: 21px; height: 22px; }
+.socials li svg { width: 11px; height: 11px; transition: transform .3s ease; }
+.socials li a:hover svg { transform: translate(2px, -2px); }
+.top-link { display: inline-flex; align-items: center; gap: 22px; color: var(--red); font: 500 14px/24px var(--util); }
+.top-link span:last-child { text-decoration: underline; }
+.top-link i { width: 44px; height: 44px; border-radius: 50%; background: var(--red); color: #fff; display: grid; place-items: center; transition: transform .4s cubic-bezier(.7,0,.2,1); }
+.top-link:hover i { transform: translateY(-4px); }
+.top-link svg { width: 16px; height: 16px; }
+.credit { background: #121212; text-align: center; font: 400 12px/32px var(--util); padding-block: 22px; padding-bottom: max(22px, env(safe-area-inset-bottom, 0px)); }
+
+/* Tablet */
+@media (max-width: 1280px) {
+  .nav__links { display: none; }
+}
+@media (max-width: 1600px) {
+  .foot__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); justify-content: stretch; }
+  .foot h4, .foot li a { white-space: normal; }
+}
+@media (max-width: 1100px) {
+  :root { --s: calc(100vw / 1300); }
+  .hero__top { grid-template-columns: minmax(0, 1fr); row-gap: 40px; padding-right: max(16px, env(safe-area-inset-right, 0px)) !important; }
+  .hero__title, .hero__aside { grid-column: 1; grid-row: auto; }
+  .hero__aside { max-width: 486px; }
+  .hero__bottom { grid-template-columns: minmax(0, 1fr); row-gap: 56px; }
+  .study .wrap { grid-template-columns: minmax(0, 1fr); row-gap: 56px; }
+  .study__left { gap: 40px; }
+  .tabs { grid-auto-flow: column; justify-content: start; gap: 28px; }
+  .path__top { grid-template-columns: minmax(0, 1fr); row-gap: 56px; }
+  .feats { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 56px; }
+  .lic__top { grid-template-columns: minmax(0, 1fr); row-gap: 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)) !important; }
+  .accred { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .partners__head { grid-template-columns: minmax(0, 1fr) auto; }
+  .partners__head .h3 { grid-column: 1; }
+  .partners__head .btn { grid-column: 2; }
+  .grid6 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .life .wrap { grid-template-columns: minmax(0, 1fr); row-gap: 56px; }
+  .dubai { grid-template-columns: minmax(0, 1fr); }
+  .dubai__img { height: 70vw; max-height: 640px; }
+  .dubai__body { padding-left: max(16px, env(safe-area-inset-left, 0px)) !important; padding-right: max(16px, env(safe-area-inset-right, 0px)) !important; }
+  .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 48px; }
+  .apply { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .faq .wrap { grid-template-columns: minmax(0, 1fr); row-gap: 56px; }
+  .foot__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); justify-content: stretch; }
+  .why__row, .why__row:nth-child(even) { margin-left: 0; grid-template-columns: 120px minmax(0, 1fr); }
+  .why__body { grid-template-columns: minmax(0, 1fr); row-gap: 12px; }
+  .why__band { width: 100%; }
+  .why__list { row-gap: 72px; }
+}
+/* Phone */
+@media (max-width: 700px) {
+  :root { --s: calc(100vw / 760); --h2: 8.4vw; }
+  .stories__head { flex-wrap: wrap; }
+  .ask p { max-width: 100%; }
+  .nav__ctas .btn--line, .nav__ctas .icon-btn { display: none; }
+  .nav__ctas .btn--red { height: 42px; font-size: 16px; padding-left: 16px; }
+  .nav__ctas .btn--red .btn__ic { width: 30px; height: 30px; }
+  .logo, .logo img { width: 121px; height: 48px; }
+  .hero__title { font-size: clamp(44px, 13.5vw, 96px); }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; }
+  .stat__label { font-size: 15px; }
+  .stat__num { font-size: 9vw; }
+  .stat__num sup { font-size: 4.6vw; }
+  .tabs { grid-auto-flow: row; }
+  .study__head { flex-direction: column; }
+  .cards { grid-template-columns: minmax(0, 1fr); }
+  .why__row, .why__row:nth-child(even) { grid-template-columns: minmax(0, 1fr); row-gap: 8px; }
+  .why__band { height: 100%; opacity: .0; }
+  .cols { grid-template-columns: minmax(0, 1fr); height: auto; }
+  .col { height: 420px; }
+  .feats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 20px; }
+  .feat { padding-left: 18px; min-height: 280px; }
+  .accred { grid-template-columns: minmax(0, 1fr); }
+  .grid6 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .partners__head { grid-template-columns: minmax(0, 1fr); row-gap: 20px; }
+  .partners__head .btn { grid-column: 1; justify-self: start; }
+  .life__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; }
+  .facts { grid-template-columns: minmax(0, 1fr); }
+  .steps { grid-template-columns: minmax(0, 1fr); }
+  .step { min-height: 0; }
+  .apply { grid-template-columns: minmax(0, 1fr); }
+  .foot__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .foot__grid > :first-child { grid-column: 1 / -1; }
+  .ccard__box { width: 100%; }
+}
+@media (max-width: 900px) {
+  .campus__stage { padding-inline: max(16px, env(safe-area-inset-left, 0px)); padding-block: 24px; scroll-padding-left: max(16px, env(safe-area-inset-left, 0px)); }
+  .ccard { flex: 0 0 88vw; height: 72vh; max-height: 640px; border: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .play::before { animation: none; }
+  *, *::before, *::after { transition-duration: .01ms !important; }
+}
+</style>
+
+<header class="site-header" id="top">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Middlesex University Dubai home">
+      <img class="logo--white" src="assets/logo-white.png" alt="">
+      <img class="logo--color" src="assets/logo-color.png" alt="">
+    </a>
+    <nav class="nav" aria-label="Main">
+      <div class="nav__links">
+        <a href="#study">Study</a>
+        <a href="#campus">Life at University</a>
+        <a href="#dubai">International</a>
+        <a href="#licensure">Research</a>
+        <a href="#partners">Business &amp; Partnerships</a>
+        <a href="#pathway">About Us</a>
+        <a href="#faq">Contact Us</a>
+      </div>
+      <div class="nav__actions">
+        <div class="nav__ctas">
+          <button class="icon-btn" type="button" aria-label="Search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21" stroke-linecap="round"/></svg>
+          </button>
+          <a class="btn btn--line hdr" href="#apply"><span>Online Payment</span></a>
+          <a class="btn btn--red" href="#apply">Apply Now <span class="btn__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+        </div>
+        <button class="icon-btn burger-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><span class="burger"><i></i><i></i><i></i></span></button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="wrap menu__top">
+    <img src="assets/logo-white.png" alt="Middlesex University Dubai" width="151" height="60">
+    <button class="close" type="button" aria-label="Close menu"></button>
+  </div>
+  <div class="wrap">
+    <ul class="menu__list">
+      <li><a href="#study">Study</a></li>
+      <li><a href="#campus">Life at University</a></li>
+      <li><a href="#dubai">International</a></li>
+      <li><a href="#licensure">Research</a></li>
+      <li><a href="#partners">Business &amp; Partnerships</a></li>
+      <li><a href="#pathway">About Us</a></li>
+      <li><a href="#faq">Contact Us</a></li>
+    </ul>
+  </div>
+  <div class="wrap menu__foot">
+    <a class="btn btn--red" href="#apply">Apply Now <span class="btn__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+    <a class="btn btn--line on-dark" href="#apply"><span>Online Payment</span></a>
+  </div>
+</div>
+
+<main>
+  <!-- Hero -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__media"><img src="assets/hero.jpg" alt="Students laughing together in a sunlit university courtyard"></div>
+    <div class="wrap hero__top">
+      <h1 class="hero__title" id="hero-title">
+        <span class="ln"><span>January</span></span>
+        <span class="ln"><span>2027</span></span>
+        <span class="ln"><span>Intake</span></span>
+      </h1>
+      <div class="hero__aside">
+        <p>Explore eligible Foundation, undergraduate and postgraduate programmes at Middlesex University Dubai and take your next step towards a UK degree.</p>
+        <div class="btn-row">
+          <a class="btn btn--white" href="#apply">Apply Now <span class="btn__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+          <a class="btn btn--line on-dark" href="#faq" style="width:156px;justify-content:center"><span>Enquire Now</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="wrap hero__bottom">
+      <div class="hero__intro" data-reveal>
+        <p>Discover a university that brings together academic excellence, global perspectives and industry connections. At Middlesex University Dubai, you’ll join a diverse international community, explore recognised UK-accredited programmes and gain opportunities to develop the knowledge and skills needed for your future.</p>
+        <a class="btn btn--red" href="#pathway">Discover MDX Dubai <span class="btn__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="stat__num"><span data-count="7200">7,200</span><sup>+</sup></div><div class="stat__label">Students</div></div>
+        <div class="stat"><div class="stat__num"><span data-count="90">90</span><sup>+</sup></div><div class="stat__label">UK-accredited programmes</div></div>
+        <div class="stat"><div class="stat__num"><span data-count="120">120</span><sup>+</sup></div><div class="stat__label">Nationalities</div></div>
+        <div class="stat"><div class="stat__num"><span data-count="500">500</span><sup>+</sup></div><div class="stat__label">Industry partners</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What to study -->
+  <section class="study" id="study" aria-labelledby="study-title">
+    <div class="wrap">
+      <div class="study__left">
+        <h2 class="h2" id="study-title" data-split>What to Study in 2027?</h2>
+        <div class="tabs" role="tablist" aria-label="Study level">
+          <span class="tab-ind" aria-hidden="true"></span>
+          <button class="tab" role="tab" id="tab-f" aria-selected="true" aria-controls="panel-f">Foundation</button>
+          <button class="tab" role="tab" id="tab-u" aria-selected="false" aria-controls="panel-u" tabindex="-1">Undergraduate</button>
+          <button class="tab" role="tab" id="tab-p" aria-selected="false" aria-controls="panel-p" tabindex="-1">Postgraduate</button>
+        </div>
+      </div>
+      <div class="study__right">
+        <div class="study__head">
+          <h3 id="study-sub">International Foundation Programme</h3>
+          <a class="btn btn--line on-light" href="#study"><span>View all programs</span></a>
+        </div>
+        <div class="panel" id="panel-f" role="tabpanel" aria-labelledby="tab-f">
+          <div class="cards">
+            <a class="pcard" href="#apply"><div class="pcard__img"><img src="assets/prog-1.jpg" alt="Student working at a laptop with a tutor"><span class="pcard__dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div><p class="pcard__title">International Foundation Programme – Business</p></a>
+            <a class="pcard" href="#apply"><div class="pcard__img"><img src="assets/prog-2.jpg" alt="Students smiling around a laptop"><span class="pcard__dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div><p class="pcard__title">International Foundation Programme – Psychology</p></a>
+            <a class="pcard" href="#apply"><div class="pcard__img"><img src="assets/prog-3.jpg" alt="Three friends sharing a tablet outdoors"><span class="pcard__dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div><p class="pcard__title">International Foundation Programme – Art and Design</p></a>
+            <a class="pcard" href="#apply"><div class="pcard__img"><img src="assets/prog-4.jpg" alt="Law students in front of a library of case books"><span class="pcard__dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div><p class="pcard__title">International Foundation Programme – Law and Politics</p></a>
+          </div>
+        </div>
+        <div class="panel panel--cta" id="panel-u" role="tabpanel" aria-labelledby="tab-u" hidden>
+          <p>Undergraduate programmes starting in January 2027 are listed in the full programme finder.</p>
+          <a class="btn btn--red" href="#study">View undergraduate programmes <span class="btn__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+        </div>
+        <div class="panel panel--cta" id="panel-p" role="tabpanel" aria-labelledby="tab-p" hidden>
+          <p>Eligible postgraduate programmes starting in January 2027 are listed in the full programme finder.</p>
+          <a class="btn btn--red" href="#study">View postgraduate programmes <span class="btn__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why January -->
+  <section class="why" aria-label="Why start in January">
+    <div class="why__bg"><img src="assets/why-bg.jpg" alt=""></div>
+    <div class="why__band" aria-hidden="true"></div>
+    <ol class="wrap why__list">
+      <li class="why__row"><span class="why__num">01</span><div class="why__body"><h3 class="why__title">Start sooner</h3><p class="why__desc">Begin your university journey in January and make the most of an additional intake opportunity, without waiting for the traditional September start.</p></div></li>
+      <li class="why__row"><span class="why__num">02</span><div class="why__body"><h3 class="why__title">Plan Your Progression</h3><p class="why__desc">Understand your academic pathway from the beginning, with clear milestones to help you prepare for your next level of study.</p></div></li>
+      <li class="why__row"><span class="why__num">03</span><div class="why__body"><h3 class="why__title">Find Your Community</h3><p class="why__desc">Join a diverse student community, build meaningful connections and experience university life in an internationally connected learning environment.</p></div></li>
+      <li class="why__row"><span class="why__num">04</span><div class="why__body"><h3 class="why__title">Apply Before Results</h3><p class="why__desc">Still completing your school qualifications? You may be able to apply using predicted grades and receive a conditional offer while awaiting your final results.</p></div></li>
+    </ol>
+  </section>
+
+  <!-- Pathway -->
+  <section class="path" id="pathway" aria-labelledby="path-title">
+    <div class="wrap path__top">
+      <div class="path__intro">
+        <h2 class="h2" id="path-title" data-split>Make January Your Starting Point.</h2>
+        <div class="inner" data-reveal>
+          <p class="lead">Start at Middlesex University Dubai in January 2027 and follow an accelerated pathway that keeps you on track to move up a level in September 2027.</p>
+          <a class="btn btn--red" href="#apply">Explore More <span class="btn__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+        </div>
+      </div>
+      <div class="cols">
+        <div class="col col--1"><span class="col__num" aria-hidden="true">01</span><div class="col__text"><h3>Start your studies</h3><p>Begin your foundation, undergraduate or eligible postgraduate programme.</p></div></div>
+        <div class="col col--2"><span class="col__num" aria-hidden="true">02</span><div class="col__text"><h3>Stay on track</h3><p>Follow the accelerated January pathway and complete the required studies.</p></div></div>
+        <div class="col col--3"><span class="col__num" aria-hidden="true">03</span><div class="col__text"><h3>Progress to your next level</h3><p>Move on in September, for example from Foundation to the first year of your degree.</p></div></div>
+      </div>
+    </div>
+    <div class="wrap path__center"><h2 class="h2" data-split>Where futures begin</h2></div>
+    <div class="wrap feats">
+      <div class="feat"><img src="assets/icon-1.png" alt=""><div><h3>Earn a UK degree in Dubai</h3><p>The same Middlesex University award, taught in English at Dubai Knowledge Park.</p></div></div>
+      <div class="feat"><img src="assets/icon-2.png" alt=""><div><h3>Join an international community</h3><p>Study with students from 120+ nationalities and build connections beyond the classroom.</p></div></div>
+      <div class="feat"><img src="assets/icon-3.png" alt=""><div><h3>Learn with your future in mind</h3><p>Programmes that combine academic learning with the skills your career will need.</p></div></div>
+      <div class="feat"><img src="assets/icon-4.png" alt=""><div><h3>Live university life beyond lectures</h3><p>Sports, clubs, societies and events across both Dubai campuses.</p></div></div>
+      <div class="feat"><img src="assets/icon-5.png" alt=""><div><h3>Study across campuses</h3><p>Options to spend time at another Middlesex campus [to confirm with MDX].</p></div></div>
+    </div>
+  </section>
+
+  <!-- Licensure + partners -->
+  <section class="lic" id="licensure" aria-labelledby="lic-title">
+    <div class="wrap lic__top">
+      <div class="accred">
+        <div><img src="assets/accred-1.png" alt="United Arab Emirates Ministry of Higher Education and Scientific Research"></div>
+        <div><img src="assets/accred-2.png" alt="Commission for Academic Accreditation"></div>
+        <div><img src="assets/accred-3.png" alt="KHDA"></div>
+      </div>
+      <div class="lic__body">
+        <h2 class="h2" id="lic-title" data-split>Licensure &amp; Accreditation</h2>
+        <ul class="lic__list">
+          <li><span>Institutional licence from the UAE Ministry of Higher Education and Scientific Research (MoHESR), granted by the Commission for Academic Accreditation on 9 January 2025.</span></li>
+          <li><span>All undergraduate and postgraduate programmes are MoHESR-accredited.</span></li>
+          <li><span>Licensed by Dubai’s Knowledge and Human Development Authority (KHDA) [rating to confirm].</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap partners__head" id="partners">
+      <span aria-hidden="true"></span>
+      <h2 class="h3">Our Industry Partners</h2>
+      <a class="btn btn--line on-dark" href="#partners" style="width:144px;justify-content:center"><span>View More</span></a>
+    </div>
+    <div class="wrap grid6" aria-label="Industry partners">
+      <div class="cell"><img src="assets/partner-1.png" alt="IBM"></div>
+      <div class="cell"><img src="assets/partner-2.png" alt="CIM"></div>
+      <div class="cell"><img src="assets/partner-3.png" alt="Bird &amp; Bird"></div>
+      <div class="cell"><img src="assets/partner-4.png" alt="Dell"></div>
+      <div class="cell"><img src="assets/partner-5.png" alt="Cisco"></div>
+      <div class="cell"><img src="assets/partner-6.png" alt="Blackmagic Design"></div>
+      <div class="cell"><img src="assets/partner-7.png" alt="CFA Institute"></div>
+      <div class="cell"><img src="assets/partner-8.png" alt="Ciarb"></div>
+      <div class="cell"><img src="assets/partner-9.png" alt="Microsoft"></div>
+      <div class="cell"><img src="assets/partner-10.png" alt="Oracle"></div>
+      <div class="cell"><img src="assets/partner-11.png" alt="SAP"></div>
+      <div class="cell"><img src="assets/partner-12.png" alt="GARP"></div>
+    </div>
+  </section>
+
+  <!-- Campus cards -->
+  <section class="campus" id="campus" aria-label="Our campus">
+    <div class="campus__stage">
+      <article class="ccard"><img src="assets/campus-1.jpg" alt="Middlesex University Dubai building at Knowledge Park"><div class="ccard__shade"></div><div class="ccard__box"><h3>Knowledge Park</h3><p>Explore our main campus in Dubai’s vibrant district for higher education and student life.</p></div></article>
+      <article class="ccard"><img src="assets/campus-2.jpg" alt="Library with a timber roof and study areas"><div class="ccard__shade"></div><div class="ccard__box"><h3>Library &amp; Support</h3><p>Focus in dedicated study spaces and access guidance through our Centre for Academic Success.</p></div></article>
+      <article class="ccard"><img src="assets/campus-3.jpg" alt="Colourful creative studio lounge"><div class="ccard__shade"></div><div class="ccard__box"><h3>Creative Studios</h3><p>Turn ideas into reality in hands-on studios for fashion, graphic and interior design.</p></div></article>
+      <article class="ccard"><img src="assets/campus-4.jpg" alt="Researcher working in a laboratory"><div class="ccard__shade"></div><div class="ccard__box"><h3>Specialist Labs</h3><p>Develop practical skills in specialist labs for cybersecurity, data science and robotics.</p></div></article>
+    </div>
+    <div class="campus__count" aria-hidden="true"><span class="cur">01</span> / 04</div>
+  </section>
+
+  <!-- Campus life -->
+  <section class="life" aria-labelledby="life-title">
+    <div class="wrap">
+      <div class="life__stats">
+        <div><div class="n"><span data-count="200">200</span>+</div><div class="l">Events a year</div></div>
+        <div><div class="n"><span data-count="50">50</span>+</div><div class="l">Clubs and societies</div></div>
+        <div><div class="n"><span data-count="15">15</span>+</div><div class="l">Sports teams</div></div>
+        <div><div class="n">24/7</div><div class="l">Library access</div></div>
+      </div>
+      <div class="life__copy">
+        <h2 class="h3" id="life-title" data-split>Two campuses.<br>One London award.</h2>
+        <p class="lead" data-reveal>Experience university life across Dubai Knowledge Park and Dubai International Academic City. Explore creative studios, modern laboratories, performance theatres and dedicated library spaces, while enjoying student activities, clubs and events that bring campus life to life.</p>
+        <a class="btn btn--red" href="#campus" data-reveal>Book a campus visit <span class="btn__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dubai -->
+  <section class="dubai" id="dubai" aria-labelledby="dubai-title">
+    <div class="dubai__img"><img src="assets/dubai.jpg" alt="Two students reading notebooks together outside a campus building"></div>
+    <div class="wrap dubai__body">
+      <h2 class="h2" id="dubai-title" data-split>A UK degree, with Dubai around it</h2>
+      <div class="facts">
+        <div class="fact"><h3>Business hub</h3><p>Free zones and thousands of multinational companies.</p></div>
+        <div class="fact"><h3>Careers</h3><p>Internships and graduate roles across the city’s industries.</p></div>
+        <div class="fact"><h3>Connected</h3><p>Two-thirds of the world within an 8-hour flight.</p></div>
+        <div class="fact"><h3>Safe</h3><p>One of the safest cities in the world.</p></div>
+      </div>
+      <a class="btn btn--white" href="#dubai" data-reveal>Why choose Dubai <span class="btn__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+    </div>
+  </section>
+
+  <!-- Testimonials, steps, apply -->
+  <section class="stories" aria-labelledby="stories-title">
+    <div class="wrap stories__head">
+      <h2 class="h2" id="stories-title" data-split>Student<br>Testimonials</h2>
+      <div class="arrows">
+        <button class="arrow" type="button" data-dir="-1" aria-label="Previous testimonial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button class="arrow" type="button" data-dir="1" aria-label="Next testimonial"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+    </div>
+    <div class="track" tabindex="0" aria-label="Student testimonials">
+      <article class="tcard tcard--quote">
+        <div><span class="tcard__q" style="color:var(--red)" aria-hidden="true">“</span><blockquote>“The student experience at Middlesex University in Dubai has been great so far. Initially, I was concerned about making friends in a new country and learning environment; however, I soon learned this wasn’t the case. The diversity and opportunity to learn from and interact with people from different cultures and backgrounds has been really positive.”</blockquote></div>
+        <div class="who"><b>Omar Hassan</b><span>BSc (Hons) Computer Science</span></div>
+      </article>
+      <article class="tcard tcard--video">
+        <img src="assets/testi-1.jpg" alt="Aisha Rahman holding a clipboard on campus">
+        <div class="who"><b>Aisha Rahman</b><span>BA (Hons) Business Management</span></div>
+        <button class="play" type="button" aria-label="Play Aisha Rahman’s video"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l12-7.5z"/></svg></button>
+      </article>
+      <article class="tcard tcard--quote">
+        <div><span class="tcard__q" style="color:var(--violet)" aria-hidden="true">“</span><blockquote>“Moving to a new country and starting university felt like a big step, but the welcoming environment made the transition easier than I expected. Meeting people from different cultures has helped me see things from new perspectives, build lasting friendships and feel part of a truly international community.”</blockquote></div>
+        <div class="who"><b style="font-weight:500">Alex Paul</b><span>MSC Robotics</span></div>
+      </article>
+      <article class="tcard tcard--quote">
+        <div><span class="tcard__q" style="color:var(--amber)" aria-hidden="true">“</span><blockquote>“The student experience at Middlesex University in Dubai has been great so far. Initially, I was concerned about making friends in a new country and learning environment; however, I soon learned this wasn’t the case. The diversity and opportunity to learn from and interact with people from different cultures and backgrounds has been really positive.”</blockquote></div>
+        <div class="who"><b>Alex Paul</b><span>MSC Robotics</span></div>
+      </article>
+    </div>
+
+    <div class="wrap steps__title"><h2 class="h2" data-split>Five steps.<br>Free to apply.</h2></div>
+    <ol class="wrap steps" style="list-style:none;margin:0">
+      <li class="step"><span class="step__n" aria-hidden="true">1</span><div class="step__t"><h3>Find your programme</h3><p>Explore the foundation, undergraduate and postgraduate programmes starting in January.</p></div></li>
+      <li class="step"><span class="step__n" aria-hidden="true">2</span><div class="step__t"><h3>Check the entry requirements</h3><p>Review the academic and English language requirements for your programme.</p></div></li>
+      <li class="step"><span class="step__n" aria-hidden="true">3</span><div class="step__t"><h3>Submit an online application</h3><p>Complete the application and upload your supporting documents.</p></div></li>
+      <li class="step"><span class="step__n" aria-hidden="true">4</span><div class="step__t"><h3>Receive your outcome</h3><p>The admissions team reviews your application and tells you the next steps.</p></div></li>
+      <li class="step"><span class="step__n" aria-hidden="true">5</span><div class="step__t"><h3>Prepare to join</h3><p>Meet any conditions, then we guide you through getting ready to start.</p></div></li>
+    </ol>
+
+    <div class="wrap apply" id="apply">
+      <article class="acard acard--1"><img src="assets/apply-1.jpg" alt=""><div class="acard__body"><div><h3>Ready to apply</h3><p>We offer internationally recognised Foundation, Undergraduate and Postgraduate programmes that will prepare you for industry and career success.</p></div><a class="btn btn--line on-dark btn--sm" href="#apply"><span>Apply now</span></a></div></article>
+      <article class="acard acard--2"><img src="assets/apply-2.jpg" alt=""><div class="acard__body"><div><h3>Waiting for your results?</h3><p>Apply with verified predicted grades and hold a conditional offer.</p></div><a class="btn btn--line on-dark btn--sm" href="#faq"><span>How predicted grades work</span></a></div></article>
+      <article class="acard acard--3"><img src="assets/apply-3.jpg" alt=""><div class="acard__body"><div><h3>Applying from outside the UAE?</h3><p>Visa, accommodation and arrival guidance for international students.</p></div><a class="btn btn--line on-dark btn--sm" href="#dubai"><span>International support</span></a></div></article>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq" aria-labelledby="faq-title">
+    <div class="wrap">
+      <div class="faq__left">
+        <div class="top">
+          <h2 class="h2" id="faq-title" data-split>Frequently asked questions</h2>
+          <p class="lead">Can’t find your answer? Our admissions team is happy to help.</p>
+        </div>
+        <div class="ask">
+          <p>Have any other Question?</p>
+          <a class="btn btn--red btn--diag" href="#faq">Ask Now <span class="btn__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+        </div>
+      </div>
+      <div class="faq__list">
+        <div class="acc is-open"><button class="acc__q" type="button" aria-expanded="true" aria-controls="a1" id="q1">When does the January 2027 intake start?<span class="pm" aria-hidden="true"></span></button><div class="acc__a" id="a1" role="region" aria-labelledby="q1"><p>Classes begin in January 2027 [11 January 2027, to confirm]. Leave time for the admissions, payment, visa and enrolment steps.</p></div></div>
+        <div class="acc"><button class="acc__q" type="button" aria-expanded="false" aria-controls="a2" id="q2">Which programmes can I start in January?<span class="pm" aria-hidden="true"></span></button><div class="acc__a" id="a2" role="region" aria-labelledby="q2"><p>[Answer to confirm with MDX admissions.]</p></div></div>
+        <div class="acc"><button class="acc__q" type="button" aria-expanded="false" aria-controls="a3" id="q3">Can I start an undergraduate degree in January?<span class="pm" aria-hidden="true"></span></button><div class="acc__a" id="a3" role="region" aria-labelledby="q3"><p>[Answer to confirm with MDX admissions.]</p></div></div>
+        <div class="acc"><button class="acc__q" type="button" aria-expanded="false" aria-controls="a4" id="q4">Can Foundation students progress in the same year?<span class="pm" aria-hidden="true"></span></button><div class="acc__a" id="a4" role="region" aria-labelledby="q4"><p>[Answer to confirm with MDX admissions.]</p></div></div>
+        <div class="acc"><button class="acc__q" type="button" aria-expanded="false" aria-controls="a5" id="q5">When should international students apply?<span class="pm" aria-hidden="true"></span></button><div class="acc__a" id="a5" role="region" aria-labelledby="q5"><p>[Answer to confirm with MDX admissions.]</p></div></div>
+        <div class="acc"><button class="acc__q" type="button" aria-expanded="false" aria-controls="a6" id="q6">Can I apply with predicted grades?<span class="pm" aria-hidden="true"></span></button><div class="acc__a" id="a6" role="region" aria-labelledby="q6"><p>[Answer to confirm with MDX admissions.]</p></div></div>
+        <div class="acc"><button class="acc__q" type="button" aria-expanded="false" aria-controls="a7" id="q7">What are the entry requirements?<span class="pm" aria-hidden="true"></span></button><div class="acc__a" id="a7" role="region" aria-labelledby="q7"><p>[Answer to confirm with MDX admissions.]</p></div></div>
+        <div class="acc"><button class="acc__q" type="button" aria-expanded="false" aria-controls="a8" id="q8">What English language level do I need?<span class="pm" aria-hidden="true"></span></button><div class="acc__a" id="a8" role="region" aria-labelledby="q8"><p>[Answer to confirm with MDX admissions.]</p></div></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="cta">
+    <div class="wrap cta__row">
+      <h2 class="h2" data-split>January Starts Here</h2>
+      <div class="cta__side">
+        <p>Take the next step towards your future. Apply online today or connect with our admissions team for guidance.</p>
+        <a class="btn btn--red btn--diag" href="#apply">Apply Now <span class="btn__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+      </div>
+    </div>
+    <div class="rule"></div>
+  </div>
+  <div class="foot">
+    <div class="wrap foot__grid">
+      <img src="assets/logo-footer.png" alt="Middlesex University Dubai">
+      <div><h4>Quick Links</h4><ul><li><a href="#apply">Apply now</a></li><li><a href="#faq">Enquire now</a></li><li><a href="#faq">Request a Call back</a></li><li><a href="#apply">Online Payment</a></li><li><a href="#top">MDX Central - Student Portal</a></li><li><a href="#top">Timetables</a></li><li><a href="#top">Alumni</a></li></ul></div>
+      <div><h4>About Us</h4><ul><li><a href="#top">Our Past</a></li><li><a href="#top">Our Present</a></li><li><a href="#top">Our Future</a></li><li><a href="#top">Our People</a></li><li><a href="#campus">Our Campus</a></li><li><a href="#top">Our Schools</a></li><li><a href="#top">Our Strategy</a></li><li><a href="#top">Work with us</a></li></ul></div>
+      <div><h4>Study with Us</h4><ul><li><a href="#apply">Admissions</a></li><li><a href="#top">Scholarships and Grants</a></li><li><a href="#top">Student Finance</a></li><li><a href="#top">Experience MDX Dubai</a></li><li><a href="#dubai">Student Visa</a></li><li><a href="#top">MDX Accommodation</a></li></ul></div>
+      <div><h4>Life at University</h4><ul><li><a href="#campus">Your Campus</a></li><li><a href="#top">Team Middlesex</a></li><li><a href="#top">Centre for Academic Success</a></li><li><a href="#top">Library</a></li><li><a href="#top">Student Transportation</a></li><li><a href="#top">MDX Wellness Office</a></li><li><a href="#top">Careers and Employability Services</a></li><li><a href="#top">Academic Calendar</a></li><li><a href="#top">Graduation</a></li><li><a href="#top">Student Unihub</a></li></ul></div>
+      <div><h4>Research</h4><ul><li><a href="#top">Research Committee</a></li><li><a href="#top">Research Seminar Series</a></li><li><a href="#top">Office of Student Research</a></li><li><a href="#top">Conferences and Events</a></li><li><a href="#top">Research Matters</a></li><li><a href="#top">Our Research Staff</a></li></ul></div>
+      <div><h4>Contact Us</h4><ul><li><a href="#top">Directions</a></li><li><a href="#top">Opening Hours</a></li><li><a href="#top">Meet Us</a></li></ul></div>
+      <div><h4>Website Policies</h4><ul><li><a href="#top">Privacy Policy</a></li><li><a href="#top">Terms and Conditions</a></li><li><a href="#top">Cookie Policy</a></li></ul></div>
+    </div>
+    <div class="wrap socials">
+      <ul>
+        <li><a href="#top"><img src="assets/social-x.png" alt="">Twitter<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 10 10 2M4 2h6v6"/></svg></a></li>
+        <li><a href="#top"><img src="assets/social-facebook.png" alt="">Facebook<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 10 10 2M4 2h6v6"/></svg></a></li>
+        <li><a href="#top"><img src="assets/social-youtube.png" alt="">Youtube<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 10 10 2M4 2h6v6"/></svg></a></li>
+        <li><a href="#top"><img src="assets/social-linkedin.png" alt="">LinkedIn<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 10 10 2M4 2h6v6"/></svg></a></li>
+        <li><a href="#top"><img src="assets/social-instagram.png" alt="">Instagram<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 10 10 2M4 2h6v6"/></svg></a></li>
+        <li><a href="#top"><img src="assets/social-snapchat.png" alt="">Snapchat<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 10 10 2M4 2h6v6"/></svg></a></li>
+        <li><a href="#top"><img src="assets/social-whatsapp.png" alt="">Whatsapp<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 10 10 2M4 2h6v6"/></svg></a></li>
+        <li><a href="#top"><img src="assets/social-tiktok.png" alt="">TikTok<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 10 10 2M4 2h6v6"/></svg></a></li>
+      </ul>
+      <a class="top-link" href="#top" id="to-top"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 15l7-7 7 7"/></svg></i><span>Go to top</span></a>
+    </div>
+    <div class="credit">© Copyright Middlesex University Dubai 2023</div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function () {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const header = $(".site-header");
+
+  /* Header: transparent over the hero, white once scrolled, tucks away on scroll down */
+  let lastY = window.scrollY;
+  function onScroll() {
+    const y = window.scrollY;
+    header.classList.toggle("is-solid", y > 60);
+    const menuOpen = document.body.classList.contains("menu-open");
+    header.classList.toggle("is-hidden", !menuOpen && y > 700 && y > lastY + 2);
+    if (y < lastY - 2 || y <= 700) header.classList.remove("is-hidden");
+    lastY = y;
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* Smooth in-page jumps and Go to top */
+  $$('a[href^="#"]').forEach(a => a.addEventListener("click", e => {
+    const id = a.getAttribute("href");
+    const t = id === "#top" ? document.body : $(id);
+    if (!t) return;
+    e.preventDefault();
+    closeMenu();
+    const y = id === "#top" ? 0 : t.getBoundingClientRect().top + window.scrollY - 40;
+    window.scrollTo({ top: y, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  }));
+
+  /* Menu overlay */
+  const menu = $("#menu"), burgerBtn = $(".burger-btn");
+  let menuTl = null;
+  function openMenu() {
+    document.body.classList.add("menu-open");
+    burgerBtn.setAttribute("aria-expanded", "true");
+    if (window.gsap) {
+      menuTl && menuTl.kill();
+      menuTl = gsap.timeline()
+        .set(menu, { visibility: "visible" })
+        .to(menu, { clipPath: "inset(0 0 0% 0)", duration: .8, ease: "expo.inOut" })
+        .from(".menu__list a", { yPercent: 100, autoAlpha: 0, stagger: .05, duration: .7, ease: "power3.out" }, "-=.35")
+        .from(".menu__foot > *", { y: 20, autoAlpha: 0, stagger: .08, duration: .5 }, "-=.4");
+    } else { menu.style.visibility = "visible"; menu.style.clipPath = "none"; }
+    $(".close", menu).focus();
+  }
+  function closeMenu() {
+    if (!document.body.classList.contains("menu-open")) return;
+    document.body.classList.remove("menu-open");
+    burgerBtn.setAttribute("aria-expanded", "false");
+    if (window.gsap) {
+      menuTl && menuTl.kill();
+      gsap.set(".menu__list a, .menu__foot > *", { clearProps: "all" });
+      menuTl = gsap.timeline().to(menu, { clipPath: "inset(0 0 100% 0)", duration: .6, ease: "expo.inOut" }).set(menu, { visibility: "hidden" });
+    } else { menu.style.visibility = "hidden"; }
+    burgerBtn.focus({ preventScroll: true });
+  }
+  burgerBtn.addEventListener("click", openMenu);
+  $(".close", menu).addEventListener("click", closeMenu);
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenu(); });
+
+  /* Study tabs */
+  const tabs = $$(".tab"), ind = $(".tab-ind"), sub = $("#study-sub");
+  const subs = { "tab-f": "International Foundation Programme", "tab-u": "Undergraduate Programmes", "tab-p": "Postgraduate Programmes" };
+  function placeInd(tab, animate) {
+    const props = { x: tab.offsetLeft, y: tab.offsetTop + tab.offsetHeight - 6, width: tab.offsetWidth };
+    if (window.gsap && animate) gsap.to(ind, { ...props, duration: .6, ease: "expo.inOut" });
+    else if (window.gsap) gsap.set(ind, props);
+    else Object.assign(ind.style, { transform: `translate(${props.x}px,${props.y}px)`, width: props.width + "px" });
+  }
+  function selectTab(tab) {
+    tabs.forEach(t => { const on = t === tab; t.setAttribute("aria-selected", on); t.tabIndex = on ? 0 : -1; $("#" + t.getAttribute("aria-controls")).hidden = !on; });
+    sub.textContent = subs[tab.id];
+    placeInd(tab, true);
+    const panel = $("#" + tab.getAttribute("aria-controls"));
+    if (window.gsap && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      gsap.fromTo(panel.id === "panel-f" ? panel.querySelectorAll(".pcard") : panel.children, { y: 30, autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: .07, duration: .6, ease: "power3.out" });
+      gsap.fromTo(sub, { y: 12, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .5, ease: "power3.out" });
+    }
+  }
+  tabs.forEach((t, i) => {
+    t.addEventListener("click", () => selectTab(t));
+    t.addEventListener("keydown", e => {
+      const d = e.key === "ArrowDown" || e.key === "ArrowRight" ? 1 : e.key === "ArrowUp" || e.key === "ArrowLeft" ? -1 : 0;
+      if (!d) return; e.preventDefault();
+      const n = tabs[(i + d + tabs.length) % tabs.length]; n.focus(); selectTab(n);
+    });
+  });
+
+  /* FAQ accordion */
+  $$(".acc__q").forEach(q => q.addEventListener("click", () => {
+    const item = q.parentElement, a = q.nextElementSibling, open = q.getAttribute("aria-expanded") !== "true";
+    q.setAttribute("aria-expanded", open);
+    item.classList.toggle("is-open", open);
+    if (window.gsap) gsap.fromTo(a, { height: open ? 0 : a.offsetHeight }, { height: open ? "auto" : 0, duration: .55, ease: "power3.inOut" });
+    else a.style.height = open ? "auto" : "0";
+  }));
+
+  /* Testimonial arrows */
+  const track = $(".track");
+  $$(".arrow").forEach(b => b.addEventListener("click", () => {
+    const card = $(".tcard", track);
+    track.scrollBy({ left: Number(b.dataset.dir) * (card.offsetWidth + 12), behavior: "smooth" });
+  }));
+
+  if (!window.gsap || !window.ScrollTrigger) return;
+  gsap.registerPlugin(ScrollTrigger);
+  document.fonts && document.fonts.ready.then(() => { placeInd($(".tab[aria-selected=true]"), false); ScrollTrigger.refresh(); });
+  window.addEventListener("resize", () => placeInd($(".tab[aria-selected=true]"), false));
+  placeInd(tabs[0], false);
+
+  /* Split headings into masked words */
+  $$("[data-split]").forEach(el => {
+    const walk = node => {
+      Array.from(node.childNodes).forEach(n => {
+        if (n.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(part => {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(" ")); return; }
+            const w = document.createElement("span"); w.className = "w";
+            const i = document.createElement("span"); i.textContent = part; w.appendChild(i); frag.appendChild(w);
+          });
+          n.replaceWith(frag);
+        } else if (n.nodeType === 1 && n.tagName !== "BR") walk(n);
+      });
+    };
+    walk(el);
+  });
+
+  const rows = $$(".why__row"), band = $(".why__band");
+  let scrollRow = 1;
+  const bandTo = (i, d = .8) => {
+    const r = rows[i];
+    gsap.to(band, { y: r.offsetTop + r.offsetHeight / 2 - band.offsetHeight / 2, duration: d, ease: "expo.inOut", overwrite: "auto" });
+    rows.forEach((x, k) => gsap.to(x, { opacity: k === i ? 1 : .55, duration: d ? .5 : 0, overwrite: "auto" }));
+  };
+  bandTo(1, 0);
+  ScrollTrigger.addEventListener("refresh", () => bandTo(scrollRow, 0));
+  window.addEventListener("load", () => bandTo(scrollRow, 0));
+
+  const mm = gsap.matchMedia();
+  mm.add({ motion: "(prefers-reduced-motion: no-preference)", desktop: "(min-width: 901px)", wide: "(min-width: 1101px)" }, ctx => {
+    const { motion, desktop, wide } = ctx.conditions;
+    if (!motion) return;
+
+    /* Hero load sequence */
+    const intro = gsap.timeline({ defaults: { ease: "expo.out" } });
+    intro.from(".hero__media", { clipPath: "inset(0 0 100% 0)", duration: 1.4, ease: "expo.inOut" })
+      .from(".hero__media img", { scale: 1.3, duration: 2.4 }, 0.2)
+      .from(".hero__title .ln > span", { yPercent: 115, rotate: 3, duration: 1.3, stagger: .12 }, 0.7)
+      .from(".site-header .wrap > *", { y: -30, autoAlpha: 0, duration: 1, stagger: .1, ease: "power3.out" }, 0.9)
+      .from(".hero__aside > *", { y: 30, autoAlpha: 0, duration: 1, stagger: .12, ease: "power3.out" }, 1.1);
+
+    gsap.to(".hero__media img", { yPercent: 14, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true } });
+    gsap.to(".hero__title", { yPercent: -30, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "60% top", scrub: true } });
+
+    /* Word reveals */
+    $$("[data-split]").forEach(el => {
+      gsap.from(el.querySelectorAll(".w > span"), { yPercent: 110, duration: 1.1, stagger: .045, ease: "expo.out", scrollTrigger: { trigger: el, start: "top 85%" } });
+    });
+
+    /* Generic fade-ups */
+    gsap.utils.toArray("[data-reveal]").forEach(el => {
+      gsap.from(el, { y: 40, autoAlpha: 0, duration: 1, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 88%" } });
+    });
+
+    /* Counters */
+    $$("[data-count]").forEach(el => {
+      const end = Number(el.dataset.count), o = { v: 0 };
+      gsap.to(o, { v: end, duration: 2, ease: "power2.out", scrollTrigger: { trigger: el, start: "top 90%" },
+        onStart() { el.textContent = "0"; },
+        onUpdate() { el.textContent = Math.round(o.v).toLocaleString("en-US"); } });
+    });
+    ScrollTrigger.batch(".stat", { start: "top 90%", onEnter: b => gsap.from(b, { y: 40, autoAlpha: 0, stagger: .1, duration: 1, ease: "power3.out" }) });
+    gsap.utils.toArray(".stat").forEach(s => {
+      const line = document.createElement("i");
+      line.style.cssText = "position:absolute;left:0;right:0;bottom:0;height:2px;background:#fd4f00;transform:scaleX(0);transform-origin:left";
+      s.appendChild(line);
+      gsap.timeline({ scrollTrigger: { trigger: s, start: "top 85%" } })
+        .to(line, { scaleX: 1, duration: .9, ease: "expo.inOut" })
+        .to(line, { scaleX: 0, transformOrigin: "right", duration: .9, ease: "expo.inOut" }, "+=.1");
+    });
+
+    /* Study cards */
+    gsap.from(".tabs .tab", { x: -40, autoAlpha: 0, stagger: .1, duration: .9, ease: "power3.out", scrollTrigger: { trigger: ".tabs", start: "top 90%" } });
+    gsap.from(".study__head > *", { y: 20, autoAlpha: 0, stagger: .1, duration: .8, ease: "power3.out", scrollTrigger: { trigger: ".study__head", start: "top 88%" } });
+    ScrollTrigger.batch("#panel-f .pcard", { start: "top 90%", onEnter: b => {
+      gsap.from(b, { y: 60, autoAlpha: 0, stagger: .12, duration: 1, ease: "power3.out" });
+      gsap.from(b.map(c => c.querySelector(".pcard__img")), { clipPath: "inset(0 0 100% 0)", stagger: .12, duration: 1.2, ease: "expo.inOut" });
+    } });
+
+    /* Why January: the orange band follows the row in focus */
+    rows.forEach((r, i) => {
+      ScrollTrigger.create({ trigger: r, start: "center 62%", end: "center 38%", onToggle: self => { if (self.isActive) { scrollRow = i; bandTo(i); } } });
+      if (wide) r.addEventListener("mouseenter", () => bandTo(i, .6));
+    });
+    if (wide) $(".why").addEventListener("mouseleave", () => bandTo(scrollRow, .6));
+    gsap.from(band, { scaleX: 0, transformOrigin: "left", duration: 1.4, ease: "expo.inOut", scrollTrigger: { trigger: ".why", start: "top 70%" } });
+    gsap.from(rows, { x: -80, autoAlpha: 0, stagger: .12, duration: 1.1, ease: "power3.out", scrollTrigger: { trigger: ".why", start: "top 70%" } });
+    gsap.fromTo(".why__bg img", { yPercent: -12 }, { yPercent: 0, ease: "none", scrollTrigger: { trigger: ".why", start: "top bottom", end: "bottom top", scrub: true } });
+
+    /* Pathway columns */
+    gsap.from(".col", { yPercent: 18, autoAlpha: 0, stagger: .15, duration: 1.2, ease: "expo.out", scrollTrigger: { trigger: ".cols", start: "top 85%" } });
+    $$(".col").forEach((c, i) => {
+      gsap.fromTo(c.querySelector(".col__num"), { yPercent: i % 2 ? -10 : -90 }, { yPercent: i % 2 ? -90 : -10, ease: "none", scrollTrigger: { trigger: c, start: "top bottom", end: "bottom top", scrub: true } });
+      gsap.from(c.querySelectorAll(".col__text > *"), { y: 24, autoAlpha: 0, stagger: .1, duration: .9, ease: "power3.out", scrollTrigger: { trigger: c, start: "top 70%" } });
+    });
+
+    /* Feature columns: rules draw down, then content rises */
+    gsap.utils.toArray(".feat").forEach((f, i) => {
+      const tl = gsap.timeline({ scrollTrigger: { trigger: ".feats", start: "top 85%" }, delay: i * .1 });
+      tl.from(f.querySelector("img"), { scale: .4, autoAlpha: 0, duration: .8, ease: "back.out(2)" }, 0)
+        .from(f.querySelectorAll("h3, p"), { y: 24, autoAlpha: 0, stagger: .08, duration: .8, ease: "power3.out" }, .15);
+    });
+    const featLines = $$(".feat").map(f => { const l = document.createElement("i"); l.style.cssText = "position:absolute;left:0;top:0;width:1px;height:100%;background:#fff;transform:scaleY(0);transform-origin:top;opacity:.6"; f.appendChild(l); return l; });
+    gsap.to(featLines, { scaleY: 1, stagger: .1, duration: 1.4, ease: "expo.inOut", scrollTrigger: { trigger: ".feats", start: "top 85%" } });
+    gsap.to(featLines, { opacity: 0, delay: 1.8, duration: .8, scrollTrigger: { trigger: ".feats", start: "top 85%" } });
+
+    /* Licensure */
+    gsap.from(".accred > div", { x: -60, autoAlpha: 0, stagger: .12, duration: 1, ease: "power3.out", scrollTrigger: { trigger: ".accred", start: "top 85%" } });
+    $$(".lic__list li").forEach((li, i) => {
+      const line = document.createElement("i");
+      line.style.cssText = "position:absolute;left:0;right:0;bottom:-1px;height:2px;background:#c8000c;transform-origin:right";
+      li.appendChild(line);
+      gsap.timeline({ scrollTrigger: { trigger: li, start: "top 88%" } })
+        .to(line, { scaleX: 0, duration: 1.2, ease: "expo.inOut", delay: i * .08 })
+        .from(li.querySelector("span"), { y: 24, autoAlpha: 0, duration: .9, ease: "power3.out" }, "<.1");
+    });
+    gsap.from(".cell", { autoAlpha: 0, scale: .85, duration: .8, ease: "power3.out", stagger: { each: .05, from: "random" }, scrollTrigger: { trigger: ".grid6", start: "top 88%" } });
+
+    /* Campus cards: pinned stack on desktop */
+    if (desktop) {
+      const campus = $(".campus"), cards = $$(".ccard"), stage = $(".campus__stage"), cur = $(".campus__count .cur");
+      campus.classList.add("is-pinned");
+      const cw = () => cards[0].offsetWidth;
+      cards.forEach((c, i) => gsap.set(c, { x: () => i === 0 ? 0 : i === 1 ? cw() : stage.offsetWidth + 40, zIndex: i + 1 }));
+      const tl = gsap.timeline({ defaults: { ease: "none", duration: 1 }, scrollTrigger: {
+        trigger: ".campus", start: "center center", end: () => "+=" + window.innerHeight * 2.4, pin: true, scrub: 1, invalidateOnRefresh: true,
+        snap: { snapTo: 1 / (cards.length - 1), inertia: false, directional: false, delay: .15, duration: { min: .25, max: .7 }, ease: "power2.inOut" },
+        onUpdate: self => { cur.textContent = "0" + (Math.round(self.progress * (cards.length - 1)) + 1); }
+      } });
+      for (let i = 1; i < cards.length; i++) {
+        tl.to(cards[i], { x: 0 }, i - 1)
+          .to(cards[i - 1], { scale: .92, xPercent: -6, transformOrigin: "0% 50%" }, i - 1)
+          .to(cards[i - 1].querySelector(".ccard__shade"), { opacity: .55 }, i - 1)
+          .fromTo(cards[i].querySelector("img"), { scale: 1.25, xPercent: 8 }, { scale: 1, xPercent: 0 }, i - 1)
+          .fromTo(cards[i].querySelectorAll(".ccard__box > *"), { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: .1, duration: .35 }, i - .5);
+        if (cards[i + 1]) tl.to(cards[i + 1], { x: () => cw() }, i - 1);
+      }
+      gsap.from(".ccard:first-child .ccard__box > *", { y: 40, autoAlpha: 0, stagger: .1, duration: 1, ease: "power3.out", scrollTrigger: { trigger: ".campus", start: "top 70%" } });
+    }
+
+    /* Life stats */
+    gsap.from(".life__stats > div", { y: 50, autoAlpha: 0, stagger: .1, duration: 1, ease: "power3.out", scrollTrigger: { trigger: ".life__stats", start: "top 85%" } });
+
+    /* Dubai */
+    gsap.from(".dubai__img", { clipPath: "inset(0 100% 0 0)", duration: 1.6, ease: "expo.inOut", scrollTrigger: { trigger: ".dubai", start: "top 75%" } });
+    gsap.fromTo(".dubai__img img", { scale: 1.25 }, { scale: 1, ease: "none", scrollTrigger: { trigger: ".dubai", start: "top bottom", end: "bottom top", scrub: true } });
+    gsap.from(".fact", { y: 40, autoAlpha: 0, stagger: .1, duration: .9, ease: "power3.out", scrollTrigger: { trigger: ".facts", start: "top 85%" } });
+    $$(".fact").forEach((f, i) => {
+      const l = document.createElement("i"); l.style.cssText = "position:absolute;left:0;right:0;bottom:0;height:1px;background:#fff;transform:scaleX(0);transform-origin:left"; f.appendChild(l);
+      gsap.timeline({ scrollTrigger: { trigger: ".facts", start: "top 85%" } }).to(l, { scaleX: 1, duration: 1, ease: "expo.inOut", delay: .3 + i * .1 }).to(l, { opacity: 0, duration: .6 });
+    });
+
+    /* Testimonials */
+    gsap.from(".tcard", { x: 120, autoAlpha: 0, stagger: .12, duration: 1.2, ease: "expo.out", scrollTrigger: { trigger: ".track", start: "top 85%" } });
+    gsap.from(".arrow", { scale: 0, stagger: .1, duration: .7, ease: "back.out(2)", scrollTrigger: { trigger: ".arrows", start: "top 90%" } });
+
+    /* Steps: outlined numbers fill as you scroll */
+    $$(".step").forEach((s, i) => {
+      gsap.to(s.querySelector(".step__n"), { backgroundPosition: "0% 100%", ease: "none", scrollTrigger: { trigger: ".steps", start: () => `top ${80 - i * 6}%`, end: () => `top ${45 - i * 6}%`, scrub: true } });
+      gsap.from(s.querySelector(".step__t"), { y: 40, autoAlpha: 0, duration: 1, ease: "power3.out", delay: i * .08, scrollTrigger: { trigger: ".steps", start: "top 80%" } });
+    });
+
+    /* Apply cards */
+    gsap.from(".acard", { y: 100, autoAlpha: 0, stagger: .14, duration: 1.2, ease: "expo.out", scrollTrigger: { trigger: ".apply", start: "top 85%" } });
+    $$(".acard").forEach(c => gsap.fromTo(c.querySelector("img"), { yPercent: -6 }, { yPercent: 6, ease: "none", scrollTrigger: { trigger: c, start: "top bottom", end: "bottom top", scrub: true } }));
+
+    /* FAQ + footer */
+    gsap.from(".acc", { y: 30, autoAlpha: 0, stagger: .06, duration: .8, ease: "power3.out", scrollTrigger: { trigger: ".faq__list", start: "top 85%" } });
+    gsap.from(".ask", { y: 30, autoAlpha: 0, duration: .9, ease: "power3.out", scrollTrigger: { trigger: ".ask", start: "top 92%" } });
+    gsap.from(".rule", { scaleX: 0, duration: 1.6, ease: "expo.inOut", scrollTrigger: { trigger: ".rule", start: "top 95%" } });
+    gsap.from(".cta__side > *", { y: 30, autoAlpha: 0, stagger: .1, duration: .9, ease: "power3.out", scrollTrigger: { trigger: ".cta__row", start: "top 85%" } });
+    gsap.from(".foot__grid > *", { y: 30, autoAlpha: 0, stagger: .06, duration: .8, ease: "power3.out", scrollTrigger: { trigger: ".foot__grid", start: "top 92%" } });
+
+    return () => { $(".campus").classList.remove("is-pinned"); gsap.set(".ccard", { clearProps: "all" }); };
+  });
+})();
+</script>
